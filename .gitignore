@@ -3,3 +3,5 @@ elu/.settings/*
 elu/.classpath
 elu/.project
 elu/target/*
+.idea/*
+elu.iml
