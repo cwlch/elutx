@@ -1,7 +1,7 @@
 text.tt
-elu/.settings/*
-elu/.classpath
-elu/.project
-elu/target/*
+.settings/*
+.classpath
+.project
+target/*
 .idea/*
 elu.iml

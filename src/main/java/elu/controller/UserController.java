@@ -184,7 +184,20 @@ public class UserController {
 		userService.updateCar(car);
 		return RRUtil.getJsonRes(request,resMap);
 	}
-	
-	
 
+	@RequestMapping(value = "verifyStatus", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String verifyStatus(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		Map<String,Object> map=RRUtil.para2Map(request);
+		Integer id= Integer.valueOf((String) map.get("id"));
+		UserLicence userLicence = userService.queryUserLicenceByUId(id);
+		Car car = userService.queryCarByUId(id);
+		if(userLicence.getStatus() == 3 && car.getStatus() == 3){
+			resMap.put("status",1);
+		}else{
+			resMap.put("status",0);
+		}
+		return RRUtil.getJsonRes(request,resMap);
+	}
 }
