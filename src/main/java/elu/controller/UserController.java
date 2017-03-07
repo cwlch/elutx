@@ -93,6 +93,14 @@ public class UserController {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String uid=request.getParameter("uid");
 		User user=userService.queryUserByUId(uid);
+        Integer id = user.getId();
+        UserLicence userLicence = userService.queryUserLicenceByUId(id);
+        Car car = userService.queryCarByUId(id);
+        if(userLicence != null && userLicence.getStatus() == 3 && car.getStatus() == 3){
+            resMap.put("status",1);
+        }else{
+            resMap.put("status",0);
+        }
 		resMap.put("user", user);
 		return RRUtil.getJsonRes(request,resMap);
 	}
@@ -131,18 +139,63 @@ public class UserController {
 		}
 		car.setCreateTime(System.currentTimeMillis());
 		car.setIsStop(0);
-		car.setStatus(0);
+		car.setStatus(1);
 		car.setRegImg(carImgName);
+		System.out.println(text);
 		userService.addCar(car);
 		UserLicence userLicence=JSON.parseObject(text, UserLicence.class);
 		userLicence.setLicenceImg(liceneceImgName);
 		userLicence.setCreateTime(System.currentTimeMillis());
-		userLicence.setStatus(0);
+		userLicence.setStatus(1);
 		userLicence.setLicenceImg(liceneceImgName);
 		userService.addUserLicence(userLicence);
 		return RRUtil.getJsonRes(request,resMap);
 	}
-	
+	@RequestMapping(value = "updateCarAndLicence", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String updateCarAndLicence(HttpServletRequest request, HttpServletResponse response) {
+		String path="/alidata/server/tomcat-7.0.54/webapps/images/";
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String text=RRUtil.para2Json(request);
+		Car car=JSON.parseObject(text, Car.class);
+		String carImgName=car.getUserId()+"_car.jpg";
+		String liceneceImgName=car.getUserId()+"_licence.jpg";
+		String carImgCode=request.getParameter("carImgCode");
+		int carId=Integer.valueOf(request.getParameter("carId"));
+		car.setId(carId);
+		if(carImgCode!=null && "".equals(carImgCode)){
+			Base64ImgUtil.GenerateImage(carImgCode, path + carImgName);
+		}
+		String liceneceImgCode=request.getParameter("liceneceImgCode");
+		if(liceneceImgCode!=null && "".equals(liceneceImgCode)){
+			Base64ImgUtil.GenerateImage(liceneceImgCode, path + liceneceImgName);
+		}
+		car.setCreateTime(System.currentTimeMillis());
+//		car.setIsStop(0);
+//		car.setStatus(0);
+		car.setRegImg(carImgName);
+		String carStatus=request.getParameter("carStatus");
+		if(!"3".equals(carStatus)){
+			car.setStatus(1);
+			userService.updateCar(car);
+		}
+		UserLicence userLicence=JSON.parseObject(text, UserLicence.class);
+		int userLicenceId=Integer.valueOf(request.getParameter("userLicenceId"));
+		userLicence.setId(userLicenceId);
+		userLicence.setLicenceImg(liceneceImgName);
+		userLicence.setCreateTime(System.currentTimeMillis());
+//		userLicence.setStatus(0);
+		userLicence.setLicenceImg(liceneceImgName);
+		String licenceStatus=request.getParameter("licenceStatus");
+		if(!"3".equals(licenceStatus)){
+			userLicence.setStatus(1);
+			userService.updateUserLicence(userLicence);
+		}
+//		userService.addUserLicence(userLicence);
+		return RRUtil.getJsonRes(request,resMap);
+	}
+
 	
 	@RequestMapping(value = "addUserLicence", produces = "application/json; charset=utf-8")
 	@ResponseBody
