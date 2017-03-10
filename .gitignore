@@ -5,3 +5,4 @@ text.tt
 target/*
 .idea/*
 elu.iml
+/target
