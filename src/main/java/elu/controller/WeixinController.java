@@ -42,7 +42,7 @@ public class WeixinController {
         if (ToolUtil.checkSignature(signature, timestamp, nonce)) {
             return echostr;
         }
-        System.out.println("2222222");
+        System.out.println("2222222666");
         return null;
     }
 
