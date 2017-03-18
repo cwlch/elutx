@@ -3,6 +3,9 @@ package elu.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
+import elu.model.DriverRecord;
 import elu.model.UserRecord;
 
 public interface UserRecordMapper {
@@ -19,4 +22,8 @@ public interface UserRecordMapper {
     int updateByPrimaryKey(UserRecord record);
     
     List<UserRecord> selectByValue(Map map);
+
+	List checkStartRuntime(DriverRecord record);
+
+	List queryUserRecordMatchList(@Param("d_start") String d_start, @Param("d_end") String d_end, @Param("runtime") String runtime);
 }

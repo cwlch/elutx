@@ -32,7 +32,10 @@ public class AreasService {
 		return area;
 	}
 	
-	
+	public Areas queryParentById(String id){
+		Areas area=areasDao.selectByPrimaryKey(id);
+		return area;
+	}
 	
 
 }

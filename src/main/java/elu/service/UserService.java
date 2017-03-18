@@ -7,12 +7,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import elu.dao.AreasMapper;
 import elu.dao.CarMapper;
 import elu.dao.DriverRecordMapper;
 import elu.dao.UserLicenceMapper;
 import elu.dao.UserMapper;
 import elu.dao.UserRecordMapper;
 import elu.dao.UserValMapper;
+import elu.model.Areas;
 import elu.model.Car;
 import elu.model.DriverRecord;
 import elu.model.User;
@@ -47,6 +49,9 @@ public class UserService {
 
 	@Autowired
 	private CarMapper carDao;
+	
+	@Autowired
+	private AreasMapper areasDao;
 
 	public int publishInfo(UserRecord record) {
 		record.setCreateTime(System.currentTimeMillis());
@@ -61,6 +66,19 @@ public class UserService {
 			map.put("startTime", startTime);
 			map.put("endTime", endTime);
 		}
+		
+		if (map.containsKey("uStart")) {
+			String uStart = (String)map.get("uStart");
+			Areas areas = areasDao.selectByPrimaryKey(uStart);
+			map.put("uStart", areas.getParentId());
+		}
+		
+		if (map.containsKey("uEnd")) {
+			String uEnd = (String)map.get("uEnd");
+			Areas areas = areasDao.selectByPrimaryKey(uEnd);
+			map.put("uEnd", areas.getParentId());
+		}
+		
 		return userRecordDao.selectByValue(map);
 	}
 
@@ -71,6 +89,20 @@ public class UserService {
 			map.put("startTime", startTime);
 			map.put("endTime", endTime);
 		}
+		
+		if (map.containsKey("dStart")) {
+			String dStart = (String)map.get("dStart");
+			Areas areas = areasDao.selectByPrimaryKey(dStart);
+			map.put("dStart", areas.getParentId());
+		}
+		
+		if (map.containsKey("dEnd")) {
+			String dEnd = (String)map.get("dEnd");
+			Areas areas = areasDao.selectByPrimaryKey(dEnd);
+			map.put("dEnd", areas.getParentId());
+		}
+		
+		
 		return driverRecordDao.selectByValue(map);
 	}
 
@@ -187,8 +219,18 @@ public class UserService {
 	}
 
 	public List<DriverRecord> checkStartRuntime(DriverRecord record) {
-		// TODO Auto-generated method stub
-		return null;
+		List list = userRecordDao.checkStartRuntime(record);
+		return list;
+	}
+
+	public List<DriverRecord> queryDriverRecordMatchList(String d_start, String d_end, String runtime) {
+		List list = driverRecordDao.queryDriverRecordMatchList(d_start,d_end,runtime);
+		return list;
+	}
+
+	public List<UserRecord> queryUserRecordMatchList(String d_start, String d_end, String runtime) {
+		List list = userRecordDao.queryUserRecordMatchList(d_start,d_end,runtime);
+		return list;
 	}
 	
 	

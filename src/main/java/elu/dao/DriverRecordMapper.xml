@@ -197,10 +197,10 @@
        and car_id = #{carId,jdbcType=INTEGER}
       </if>
       <if test="dStart != null" >
-       and d_start = #{dStart,jdbcType=VARCHAR}
+       and d_start like CONCAT(#{dStart},'%')
       </if>
       <if test="dEnd != null" >
-       and d_end = #{dEnd,jdbcType=VARCHAR}
+        and d_end like CONCAT(#{dEnd},'%')
       </if>
       <if test="dCount != null" >
        and d_count = #{dCount,jdbcType=INTEGER}
@@ -224,5 +224,10 @@
        and create_time = #{createTime,jdbcType=BIGINT}
       </if>
        order by create_time desc limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
+  </select>
+  
+    <select id="queryDriverRecordMatchList" resultType="elu.model.DriverRecord">
+  		select * from driver_record t where  t.d_start like  CONCAT(#{d_start},'%')  and t.d_end like  CONCAT(#{d_end},'%') 
+		and str_to_date(from_unixtime(t.d_date),'%Y-%m-%d')  = str_to_date(from_unixtime(#{runtime}),'%Y-%m-%d')   
   </select>
 </mapper>

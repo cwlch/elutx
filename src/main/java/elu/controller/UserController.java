@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import elu.model.Areas;
 import elu.model.Car;
 import elu.model.User;
 import elu.model.UserLicence;
 import elu.model.UserRecord;
+import elu.service.AreasService;
 import elu.service.UserService;
 import elu.util.Base64ImgUtil;
 import elu.util.RRUtil;
@@ -35,6 +37,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AreasService areasService;
 	
 	@RequestMapping(value = "publishRequire", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -290,6 +295,28 @@ public class UserController {
 	    boolean flag = userService.updateUserRecordStatus(userRecord);
 	    resMap.put("flag", flag);
 		return RRUtil.getJsonRes(request,resMap);
+	}
+	
+	/**
+	 * 查询乘客的匹配任务列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "queryUserRecordMatchList", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryDriverRecordMatchList(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String d_start = request.getParameter("d_start");
+		String d_end = request.getParameter("d_end");
+		String runtime = request.getParameter("runtime");
+		Areas a_area =  areasService.queryParentById(d_start);
+		Areas d_area =  areasService.queryParentById(d_end);
+		List list = userService.queryUserRecordMatchList(d_start,d_end,runtime);
+		
+		resMap.put("list", list);
+		return RRUtil.getJsonRes(request,resMap);
+		
 	}
 	
 }

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import elu.model.Areas;
 import elu.model.DriverRecord;
 import elu.model.UserRecord;
+import elu.service.AreasService;
 import elu.service.UserService;
 import elu.util.RRUtil;
 
@@ -32,6 +34,9 @@ public class DriverController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AreasService areasService;
+	
 	@RequestMapping(value = "publishCars", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String publishRequire(HttpServletRequest request, HttpServletResponse response) {
@@ -42,12 +47,13 @@ public class DriverController {
 		//lzx 判断司机发布行程是否在 之前发布时间的前后  半个小时后
 		List<DriverRecord> list = userService.checkStartRuntime(record);
 		if(list != null && list.size() > 0){
-			
+			resMap.put("flag", "false");
+			System.out.println("判断司机发布行程是否在 之前发布时间的前后  半个小时已经发布订单，不能发布");
 		}else{
 			userService.publishInfo(record);
+			resMap.put("flag", "true");
+			System.out.println("司机发布信息成功！");
 		}
-		
-		
 		
 		return RRUtil.getJsonRes(request,resMap);
 	}
@@ -104,6 +110,26 @@ public class DriverController {
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
-
+	/**
+	 * 查询司机的匹配任务列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "queryDriverRecordMatchList", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryDriverRecordMatchList(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String d_start = request.getParameter("d_start");
+		String d_end = request.getParameter("d_end");
+		String runtime = request.getParameter("runtime");
+		Areas a_area =  areasService.queryParentById(d_start);
+		Areas d_area =  areasService.queryParentById(d_end);
+		List list = userService.queryDriverRecordMatchList(d_start,d_end,runtime);
+		
+		resMap.put("list", list);
+		return RRUtil.getJsonRes(request,resMap);
+		
+	}
 	
 }

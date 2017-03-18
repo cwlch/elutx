@@ -170,10 +170,10 @@
        and user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="uStart != null" >
-       and u_start = #{uStart,jdbcType=VARCHAR}
+       and u_start like CONCAT(#{uStart},'%')
       </if>
       <if test="uEnd != null" >
-       and u_end = #{uEnd,jdbcType=VARCHAR}
+       and  u_end like  CONCAT(#{uEnd},'%') 
       </if>
       <if test="uCount != null" >
        and u_count = #{uCount,jdbcType=INTEGER}
@@ -193,8 +193,16 @@
       <if test="createTime != null" >
        and create_time = #{createTime,jdbcType=BIGINT}
       </if>
+      
+      
+      
       order by create_time desc limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
     
+  </select>
+  
+ <select id="queryUserRecordMatchList" resultType="elu.model.UserRecord">
+  		select * from user_record t where  t.u_start like  CONCAT(#{d_start},'%')  and t.u_end like  CONCAT(#{d_end},'%') 
+		and str_to_date(from_unixtime(t.u_date),'%Y-%m-%d')  = str_to_date(from_unixtime(#{runtime}),'%Y-%m-%d') 
   </select>
   
 </mapper>
