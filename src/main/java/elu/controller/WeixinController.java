@@ -7,12 +7,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import ch.qos.logback.classic.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -75,6 +74,14 @@ public class WeixinController {
         String accessToken = appInfoObj.getString("access_token");
         String infoPar = "access_token="+ accessToken +"&openid="+ openId +"&lang=zh_CN";
         
+     
+        //获取用户信息
+        System.out.println(infoPar);
+        String userInfo = HttpRequestUtil.sendGet("https://api.weixin.qq.com/sns/userinfo",infoPar );
+        System.out.println("http://api.weixin.qq.com/sns/userinfo?"+infoPar );
+        System.out.println("--------------------------------------");
+        System.out.println(userInfo);
+        
         //用户注册
         User userModel = userService.queryUserByUId(openId);
         
@@ -91,13 +98,8 @@ public class WeixinController {
             System.out.println("保存成功");
         }
         
+        request.getSession().setAttribute("uid", openId);
       
-        //获取用户信息
-        System.out.println(infoPar);
-        String userInfo = HttpRequestUtil.sendGet("https://api.weixin.qq.com/sns/userinfo",infoPar );
-        System.out.println("http://api.weixin.qq.com/sns/userinfo?"+infoPar );
-        System.out.println("--------------------------------------");
-        System.out.println(userInfo);
         
         
         System.out.println("-------");

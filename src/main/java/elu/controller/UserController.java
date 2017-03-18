@@ -105,6 +105,24 @@ public class UserController {
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
+	@RequestMapping(value = "queryUserInfo", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryUserInfo(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String uid=(String)request.getSession().getAttribute("uid");
+		User user=userService.queryUserByUId(uid);
+        Integer id = user.getId();
+        UserLicence userLicence = userService.queryUserLicenceByUId(id);
+        Car car = userService.queryCarByUId(id);
+        if(userLicence != null && userLicence.getStatus() == 3 && car.getStatus() == 3){
+            resMap.put("status",1);
+        }else{
+            resMap.put("status",0);
+        }
+		resMap.put("user", user);
+		return RRUtil.getJsonRes(request,resMap);
+	}
+	
 	@RequestMapping(value = "queryUserDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String queryUserDetail(HttpServletRequest request, HttpServletResponse response) {

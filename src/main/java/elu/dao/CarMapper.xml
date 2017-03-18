@@ -167,4 +167,12 @@
     from car
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+  
+    <select id="queryCarBrandList"  resultType="elu.model.CarInfo" >
+         SELECT  DISTINCT t.FIRST_LETTER firstLetter,t.MAKE_NAME makeName from car_type t 
+    </select>
+    
+    <select id="queryCarTypeList"  resultType="elu.model.CarInfo"  parameterType="string" >
+       select t.FIRST_LETTER firstLetter,t.MAKE_NAME makeName, t.MODEL_NAME modelName from car_type t where t.make_name  =  #{makeName}
+    </select>
 </mapper>
