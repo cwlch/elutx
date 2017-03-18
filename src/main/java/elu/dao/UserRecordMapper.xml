@@ -205,4 +205,10 @@
 		and str_to_date(from_unixtime(t.u_date),'%Y-%m-%d')  = str_to_date(from_unixtime(#{runtime}),'%Y-%m-%d') 
   </select>
   
+  	<select id="checkStartRuntime" parameterType="elu.model.DriverRecord" resultType="elu.model.DriverRecord">
+		<![CDATA[
+		select user_id,d_date from driver_record t where t.d_date >= (d_date+1000*60*30) and d_date<= (d_date-1000*60*30) and t.user_id = #{userId,jdbcType=INTEGER}
+	    ]]>
+	</select>
+  
 </mapper>
