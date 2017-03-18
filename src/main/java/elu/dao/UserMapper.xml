@@ -34,13 +34,13 @@
 		insert into user (id, uid, user_name,
 		user_pwd, phone, birth,
 		gender, home, home_str,
-		create_time, is_stop)
+		create_time, is_stop,photoUrl)
 		values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{userPwd,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{birth,jdbcType=BIGINT},
 		#{gender,jdbcType=INTEGER}, #{home,jdbcType=VARCHAR},
 		#{homeStr,jdbcType=VARCHAR},
-		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER})
+		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER},#{photoUrl,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="elu.model.User">
 		insert into user

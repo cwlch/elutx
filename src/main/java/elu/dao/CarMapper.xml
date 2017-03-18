@@ -173,6 +173,6 @@
     </select>
     
     <select id="queryCarTypeList"  resultType="elu.model.CarInfo"  parameterType="string" >
-       select t.FIRST_LETTER firstLetter,t.MAKE_NAME makeName, t.MODEL_NAME modelName from car_type t where t.make_name  =  #{makeName}
+       select t.FIRST_LETTER firstLetter,t.MAKE_NAME modelName, t.MODEL_NAME makeName from car_type t where t.make_name  =  #{makeName}
     </select>
 </mapper>

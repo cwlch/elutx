@@ -23,6 +23,8 @@ public class User {
 
     private Integer isStop;
     
+    private String photoUrl;
+    
 
     public Integer getId() {
         return id;
@@ -111,5 +113,15 @@ public class User {
     public void setIsStop(Integer isStop) {
         this.isStop = isStop;
     }
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+    
+    
     
 }

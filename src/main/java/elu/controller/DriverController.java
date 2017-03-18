@@ -38,7 +38,17 @@ public class DriverController {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String text=RRUtil.para2Json(request);
 		DriverRecord record=JSON.parseObject(text, DriverRecord.class);
-		userService.publishInfo(record);
+		
+		//lzx 判断司机发布行程是否在 之前发布时间的前后  半个小时后
+		List<DriverRecord> list = userService.checkStartRuntime(record);
+		if(list != null && list.size() > 0){
+			
+		}else{
+			userService.publishInfo(record);
+		}
+		
+		
+		
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
@@ -72,5 +82,28 @@ public class DriverController {
 		HashMap<String, Object> resMap=userService.queryCarDetail(userId, recordId, carId);
 		return RRUtil.getJsonRes(request,resMap);
 	}
+	
+	
+	/**
+	 * 修改司机行程状态
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "updateDriverRecordStatus", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String updateDriverRecordStatus(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		int id=Integer.valueOf(request.getParameter("id"));
+		int status = Integer.valueOf(request.getParameter("status"));
+		DriverRecord driverRecord = new DriverRecord();
+		driverRecord.setId(id);
+		driverRecord.setdStatus(status);
+	    boolean flag = userService.updateDriverRecordStatus(driverRecord);
+	    resMap.put("flag", flag);
+		return RRUtil.getJsonRes(request,resMap);
+	}
+	
 
+	
 }

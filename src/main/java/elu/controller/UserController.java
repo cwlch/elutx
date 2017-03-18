@@ -271,4 +271,25 @@ public class UserController {
 		}
 		return RRUtil.getJsonRes(request,resMap);
 	}
+	
+	/**
+	 * 修改用户行程状态
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "updateUserRecordStatus", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String updateUserRecordStatus(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		int id=Integer.valueOf(request.getParameter("id"));
+		int status = Integer.valueOf(request.getParameter("status"));
+		UserRecord userRecord  = new UserRecord();
+		userRecord.setId(id);
+		userRecord.setuStatus(status);
+	    boolean flag = userService.updateUserRecordStatus(userRecord);
+	    resMap.put("flag", flag);
+		return RRUtil.getJsonRes(request,resMap);
+	}
+	
 }

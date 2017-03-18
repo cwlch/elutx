@@ -81,6 +81,7 @@ public class WeixinController {
         System.out.println("http://api.weixin.qq.com/sns/userinfo?"+infoPar );
         System.out.println("--------------------------------------");
         System.out.println(userInfo);
+        JSONObject obj = JSONObject.parseObject(userInfo);
         
         //用户注册
         User userModel = userService.queryUserByUId(openId);
@@ -89,11 +90,12 @@ public class WeixinController {
         	System.out.println("用户未注册，需保存用户信息");
         	//新增用户
             User user = new User();
-            user.setUid(appInfoObj.getString("openid"));
-            user.setUserName(appInfoObj.getString("nickname"));
-            user.setGender(appInfoObj.getInteger("sex"));
-            String address = appInfoObj.getString("province") +"-" +appInfoObj.getString("city") + "-"+appInfoObj.getString("country");
+            user.setUid(obj.getString("openid"));
+            user.setUserName(obj.getString("nickname"));
+            user.setGender(obj.getInteger("sex"));
+            String address = obj.getString("province") +"-" +obj.getString("city") + "-"+obj.getString("country");
             user.setHomeStr(address);
+            user.setPhotoUrl( obj.getString("headimgurl"));
             userService.addUser(user);
             System.out.println("保存成功");
         }

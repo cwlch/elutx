@@ -165,6 +165,31 @@ public class UserService {
 	public Car queryCarByUId(int userId) {
 		return carDao.selectByUid(userId);
 	}
+
+	public boolean updateDriverRecordStatus(DriverRecord driverRecord) {
+		int count = driverRecordDao.updateByPrimaryKeySelective(driverRecord);
+		if(count > 0){
+			System.out.println("修改状态成功，id："+driverRecord.getId()+",dstatus:"+driverRecord.getdStatus());
+			return true;
+		}
+		System.out.println("修改状态失败，id："+driverRecord.getId()+",dstatus:"+driverRecord.getdStatus());
+		return false;
+	}
+
+	public boolean updateUserRecordStatus(UserRecord userRecord) {
+		int count = userRecordDao.updateByPrimaryKeySelective(userRecord);
+		if(count > 0){
+			System.out.println("修改状态成功，id："+userRecord.getId()+",dstatus:"+userRecord.getuStatus());
+			return true;
+		}
+		System.out.println("修改状态失败，id：id："+userRecord.getId()+",dstatus:"+userRecord.getuStatus());
+		return false;
+	}
+
+	public List<DriverRecord> checkStartRuntime(DriverRecord record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	
