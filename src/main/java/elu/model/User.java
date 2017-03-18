@@ -22,6 +22,7 @@ public class User {
     private Long createTime;
 
     private Integer isStop;
+    
 
     public Integer getId() {
         return id;
@@ -110,4 +111,5 @@ public class User {
     public void setIsStop(Integer isStop) {
         this.isStop = isStop;
     }
+    
 }
