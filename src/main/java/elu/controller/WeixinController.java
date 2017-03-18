@@ -91,7 +91,7 @@ public class WeixinController {
             User user = new User();
             user.setUid(appInfoObj.getString("openid"));
             user.setUserName(appInfoObj.getString("nickname"));
-            user.setGender(Integer.parseInt(appInfoObj.getString("sex")));
+            user.setGender(appInfoObj.getInteger("sex"));
             String address = appInfoObj.getString("province") +"-" +appInfoObj.getString("city") + "-"+appInfoObj.getString("country");
             user.setHomeStr(address);
             userService.addUser(user);
