@@ -107,6 +107,7 @@ public class UserController {
             resMap.put("status",0);
         }
 		resMap.put("user", user);
+        resMap.put("car",car);
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
@@ -125,6 +126,7 @@ public class UserController {
             resMap.put("status",0);
         }
 		resMap.put("user", user);
+		resMap.put("car",car);
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
