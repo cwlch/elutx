@@ -230,4 +230,9 @@
   		select * from driver_record t where  t.d_start like  CONCAT(#{d_start},'%')  and t.d_end like  CONCAT(#{d_end},'%') 
 		and str_to_date(from_unixtime(t.d_date),'%Y-%m-%d')  = str_to_date(from_unixtime(#{runtime}),'%Y-%m-%d')   
   </select>
+  
+  <select id="queryDriverRecordList" resultType="elu.model.DriverRecord">
+  		select id,d_date dDate from driver_record t where d_status = '0' 
+  </select>
+  
 </mapper>

@@ -23,4 +23,6 @@ public interface DriverRecordMapper {
     List<DriverRecord> selectByValue(Map map);
 
 	List queryDriverRecordMatchList(@Param("d_start") String d_start, @Param("d_end") String d_end, @Param("runtime") String runtime);
+	
+	 List<DriverRecord> queryDriverRecordList();
 }
