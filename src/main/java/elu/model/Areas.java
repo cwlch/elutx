@@ -18,6 +18,8 @@ public class Areas {
     private String position;
 
     private Integer sort;
+    
+    private String headerChart;
 
     public String getId() {
         return id;
@@ -90,4 +92,13 @@ public class Areas {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+	public String getHeaderChart() {
+		return headerChart;
+	}
+
+	public void setHeaderChart(String headerChart) {
+		this.headerChart = headerChart;
+	}
+    
 }

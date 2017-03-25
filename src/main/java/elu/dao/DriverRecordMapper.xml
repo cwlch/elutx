@@ -220,6 +220,9 @@
       <if test="dStatus != null" >
        and d_status = #{dStatus,jdbcType=INTEGER}
       </if>
+      <if test="dStatus == null" >
+       and d_status != 2
+      </if>
       <if test="createTime != null" >
        and create_time = #{createTime,jdbcType=BIGINT}
       </if>

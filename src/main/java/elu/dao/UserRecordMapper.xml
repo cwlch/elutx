@@ -190,6 +190,9 @@
       <if test="uStatus != null" >
        and u_status = #{uStatus,jdbcType=INTEGER}
       </if>
+      <if test="uStatus == null" >
+       and u_status != 2
+      </if>
       <if test="createTime != null" >
        and create_time = #{createTime,jdbcType=BIGINT}
       </if>
@@ -207,7 +210,7 @@
   
   	<select id="checkStartRuntime" parameterType="elu.model.DriverRecord" resultType="elu.model.DriverRecord">
 		<![CDATA[
-		select user_id,d_date from driver_record t where t.d_date < (d_date+1000*60*30) and d_date > (d_date-1000*60*30) and t.user_id = #{userId,jdbcType=INTEGER}
+		select user_id,d_date from driver_record t where  #{dDate,jdbcType=BIGINT} < (d_date+1000*60*30) and #{dDate,jdbcType=BIGINT} > (d_date-1000*60*30) and t.user_id = #{userId,jdbcType=INTEGER}
 	    ]]>
 	</select>
 	

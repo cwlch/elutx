@@ -13,9 +13,10 @@
 		<result column="home_str" property="homeStr" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="BIGINT" />
 		<result column="is_stop" property="isStop" jdbcType="INTEGER" />
+		<result column="photoUrl" property="photoUrl" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, uid, user_name, user_pwd, phone, birth, gender, home, home_str,
+		id, uid, user_name, user_pwd, phone, birth, gender, home, home_str,photoUrl,
 		create_time,
 		is_stop
 	</sql>

@@ -11,9 +11,10 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="position" property="position" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="header_chart" property="headerChart" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, area_name, parent_id, short_name, lng, lat, level, position, sort
+    id, area_name, parent_id, short_name, lng, lat, level, position, sort,header_chart
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -122,6 +123,9 @@
       </if>
       <if test="sort != null" >
         sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="headerChart != null" >
+        header_chart = #{headerChart,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

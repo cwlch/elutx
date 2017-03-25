@@ -37,5 +37,9 @@ public class AreasService {
 		return area;
 	}
 	
-
+	public int updateAreas(Areas areas){
+		int count = areasDao.updateByPrimaryKeySelective(areas);
+		return count;
+	}
+	
 }

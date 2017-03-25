@@ -184,6 +184,12 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		  <!--  Chinese transferred to be PinYin Library -->
+        <dependency>
+	         <groupId>com.belerweb</groupId>
+	         <artifactId>pinyin4j</artifactId>
+	         <version>2.5.0</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>elu</finalName>

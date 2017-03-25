@@ -5,6 +5,9 @@ package elu.util;
  */
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 //import java.util.HashMap;
 //import  net.sf.json.JSONObject;
@@ -57,6 +60,33 @@ public class ToolUtil {
         return signature == null ? false : signature.equals(ToolUtil.encrypt(content.toString(), "SHA-1"));
     }
 
+    
+    /**
+	 * 随机获取四位验证码
+	 * @author lzx
+	 * @date 2016年4月18日 下午5:25:06
+	 * @param count
+	 * @return     
+	 * @return String    
+	 * @throws
+	 */
+	public static String getVerifyCode() {
+		
+		 String[] beforeShuffle = new String[] { "2", "3", "4", "5", "6", "7",  
+	                "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",  
+	                "k", "l", "m", "n", "o", "P", "q", "r", "s", "t", "u", "v",  
+	                "w", "x", "y", "z" };  
+        List list = Arrays.asList(beforeShuffle);  
+        Collections.shuffle(list);  
+        StringBuilder sb = new StringBuilder();  
+        for (int i = 0; i < list.size(); i++) {  
+            sb.append(list.get(i));  
+        }  
+        String afterShuffle = sb.toString();  
+        String result = afterShuffle.substring(5, 9);  
+		return result;
+	}
+	
     /**
      * 将json格式的字符串解析成Map对象 <li>
      * json格式：{"name":"admin","retries":"3fff","testname"

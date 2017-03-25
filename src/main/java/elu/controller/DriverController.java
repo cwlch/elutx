@@ -47,11 +47,13 @@ public class DriverController {
 		//lzx 判断司机发布行程是否在 之前发布时间的前后  半个小时后
 		List<DriverRecord> list = userService.checkStartRuntime(record);
 		if(list != null && list.size() > 0){
-			resMap.put("flag", "false");
+			resMap.put("retCode", "400");
+			resMap.put("retMsg", "发布时间半个小时内已经发布订单，不能发布");
 			System.out.println("判断司机发布行程是否在 之前发布时间的前后  半个小时已经发布订单，不能发布");
 		}else{
 			userService.publishInfo(record);
-			resMap.put("flag", "true");
+			resMap.put("retCode", "200");
+			resMap.put("retMsg", "发布成功！");
 			System.out.println("司机发布信息成功！");
 		}
 		

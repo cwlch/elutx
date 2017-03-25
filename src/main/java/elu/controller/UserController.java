@@ -321,4 +321,26 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * 发送短信验证码
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "sendSms", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String sendSms(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String telNum = request.getParameter("telNum");
+		String verifyCode = request.getParameter("verifyCode");
+		String uid=(String)request.getSession().getAttribute("uid");
+		String operateType = "1";
+		String flag = userService.addVerifyCode(verifyCode,uid,operateType);
+		
+		
+		return RRUtil.getJsonRes(request,resMap);
+		
+	}
+	
+	
 }
