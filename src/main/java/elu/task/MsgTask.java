@@ -20,7 +20,7 @@ public class MsgTask {
 	@Autowired
 	private UserRecordMapper userRecordDao;
 	
-    @Scheduled(cron="0 0/5 * * * ?") //间隔5秒执行  
+    @Scheduled(cron="0 0/1 * * * ?") //间隔5秒执行  
     public void taskCycle(){  
     	driverRecordStatusUpdate();
     	userRecordStatusUpdate();
@@ -34,7 +34,7 @@ public class MsgTask {
 	   List<DriverRecord> list = driverRecordDao.queryDriverRecordList();
        if(list != null && list.size() > 0){
        	for(DriverRecord driverRecord : list){
-       		if(driverRecord.getdDate() >= (new Date()).getTime()){
+       		if(driverRecord.getdDate() <= (new Date()).getTime()){
        			driverRecord.setdStatus(2);
        			int count = driverRecordDao.updateByPrimaryKeySelective(driverRecord);
        			if(count > 0){
@@ -54,7 +54,7 @@ public class MsgTask {
 	   List<UserRecord> list = userRecordDao.queryUserRecordList();
        if(list != null && list.size() > 0){
        	for(UserRecord userRecord : list){
-       		if(userRecord.getuDate() >= (new Date()).getTime()){
+       		if(userRecord.getuDate() <= (new Date()).getTime()){
        			userRecord.setuStatus(2);
        			int count = userRecordDao.updateByPrimaryKeySelective(userRecord);
        			if(count > 0){
