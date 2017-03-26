@@ -303,7 +303,13 @@ public class UserController {
 		userRecord.setId(id);
 		userRecord.setuStatus(status);
 	    boolean flag = userService.updateUserRecordStatus(userRecord);
-	    resMap.put("flag", flag);
+	    if(flag){
+	    	resMap.put("retCode", "200");
+			resMap.put("retMsg", "状态更新成功！");
+	    }else{
+	    	resMap.put("retCode", "400");
+			resMap.put("retMsg", "状态更新失败！");
+	    }
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
@@ -375,5 +381,27 @@ public class UserController {
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
-	
+	/**
+	 * 验证短信验证码
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "checkSms", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String checkSms(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String code = request.getParameter("verifyCode");
+		String uid=(String)request.getSession().getAttribute("uid");
+		VerifyCode oldCode = verifyCodeService.queryVerifyCodeByUid(uid);
+		if(code != null && code.equals(oldCode.getVfCode())){
+			resMap.put("retCode", "200");
+			resMap.put("retMsg", "验证成功！");
+		}else{
+			resMap.put("retCode", "400");
+			resMap.put("retMsg", "验证码不正确！");
+		}
+		
+		return RRUtil.getJsonRes(request,resMap);
+	}
 }
