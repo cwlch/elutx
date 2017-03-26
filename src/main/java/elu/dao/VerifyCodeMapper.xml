@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="elu.dao.VerifyCodeMapper" >
+  <resultMap id="BaseResultMap" type="elu.model.VerifyCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="vf_code" property="vfCode" jdbcType="VARCHAR" />
+    <result column="vf_type" property="vfType" jdbcType="VARCHAR" />
+    <result column="sendtimes" property="sendtimes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, update_time, create_time, vf_code, vf_type, sendtimes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="string" >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_code
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from verify_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="elu.model.VerifyCode" >
+    insert into verify_code (id, uid, update_time, 
+      create_time, vf_code, vf_type, 
+      sendtimes)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{updateTime,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=BIGINT}, #{vfCode,jdbcType=VARCHAR}, #{vfType,jdbcType=VARCHAR}, 
+      #{sendtimes,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="elu.model.VerifyCode" >
+    insert into verify_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="vfCode != null" >
+        vf_code,
+      </if>
+      <if test="vfType != null" >
+        vf_type,
+      </if>
+      <if test="sendtimes != null" >
+        sendtimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="vfCode != null" >
+        #{vfCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vfType != null" >
+        #{vfType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtimes != null" >
+        #{sendtimes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="elu.model.VerifyCode" >
+    update verify_code
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="vfCode != null" >
+        vf_code = #{vfCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vfType != null" >
+        vf_type = #{vfType,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtimes != null" >
+        sendtimes = #{sendtimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="elu.model.VerifyCode" >
+    update verify_code
+    set uid = #{uid,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      vf_code = #{vfCode,jdbcType=VARCHAR},
+      vf_type = #{vfType,jdbcType=VARCHAR},
+      sendtimes = #{sendtimes,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,5 +1,6 @@
 package elu.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,14 @@ import elu.model.Car;
 import elu.model.User;
 import elu.model.UserLicence;
 import elu.model.UserRecord;
+import elu.model.VerifyCode;
 import elu.service.AreasService;
 import elu.service.UserService;
+import elu.service.VerifyCodeService;
 import elu.util.Base64ImgUtil;
 import elu.util.RRUtil;
+import elu.util.ToolUtil;
+import elu.util.sendSmsUtil;
 
 /** 
 * @author liangt 
@@ -40,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private AreasService areasService;
+	
+	@Autowired
+	private VerifyCodeService verifyCodeService;
 	
 	@RequestMapping(value = "publishRequire", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -332,14 +340,39 @@ public class UserController {
 	public String sendSms(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String telNum = request.getParameter("telNum");
-		String verifyCode = request.getParameter("verifyCode");
 		String uid=(String)request.getSession().getAttribute("uid");
 		String operateType = "1";
-		String flag = userService.addVerifyCode(verifyCode,uid,operateType);
+		String code = ToolUtil.getVerifyCode();
+		//发送验证码
+		sendSmsUtil.sendSms(telNum, code);
 		
+		VerifyCode oldCode = verifyCodeService.queryVerifyCodeByUid(uid);
+		boolean flag = false;
+		if(oldCode != null){//修改
+			oldCode.setVfCode(code);
+			oldCode.setSendtimes(oldCode.getSendtimes()+1);
+			oldCode.setUpdateTime((new Date()).getTime());
+			flag = verifyCodeService.updateVfCodeById(oldCode);
+		}else{//新增
+			VerifyCode verifyCode  = new VerifyCode();
+			verifyCode.setUid(uid);
+			verifyCode.setVfCode(code);
+			verifyCode.setSendtimes(0);
+			verifyCode.setVfType(operateType);
+			verifyCode.setCreateTime((new Date()).getTime());
+			verifyCode.setUpdateTime((new Date()).getTime());
+			flag = verifyCodeService.insertVfCode(verifyCode);
+		}
+		
+		if(flag){
+			resMap.put("retCode", "200");
+			resMap.put("retMsg", "验证码发送成功！");
+		}else{
+			resMap.put("retCode", "400");
+			resMap.put("retMsg", "验证码发送失败！");
+		}
 		
 		return RRUtil.getJsonRes(request,resMap);
-		
 	}
 	
 	

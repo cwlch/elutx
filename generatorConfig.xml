@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="/Users/liangt/temp/mysql-connector-java-5.1.18.jar" />
+	<classPathEntry location="D:/testJar/mysql-connector-java-5.1.18.jar" />
 	<context id="context1">
 		<commentGenerator>
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -11,11 +11,11 @@
 			connectionURL="jdbc:mysql://120.77.240.99:3306/elu?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;failOverReadOnly=false"
 			userId="chenhui" password="chenhui123" />
 		<javaModelGenerator targetPackage="elu.model"
-			targetProject="elu/src/main/java" />
+			targetProject="elutx/src/main/java" />
 		<sqlMapGenerator targetPackage="elu.dao"
-			targetProject="elu/src/main/java" />
+			targetProject="elutx/src/main/java" />
 		<javaClientGenerator targetPackage="elu.dao"
-			targetProject="elu/src/main/java" type="XMLMAPPER" />
+			targetProject="elutx/src/main/java" type="XMLMAPPER" />
 		<!-- 
 		<table schema="elu" tableName="areas" domainObjectName="Areas"
 			enableCountByExample="false" enableUpdateByExample="false"

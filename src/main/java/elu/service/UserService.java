@@ -233,19 +233,6 @@ public class UserService {
 		return list;
 	}
 
-	/**
-	 * 发送验证码
-	 * @param verifyCode
-	 * @param uid
-	 * @param operateType
-	 * @return
-	 */
-	public String addVerifyCode(String verifyCode, String uid, String operateType) {
-		 
-		return null;
-	}
-	
-	
 	
 	
 
