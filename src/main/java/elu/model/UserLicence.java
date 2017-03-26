@@ -14,6 +14,8 @@ public class UserLicence {
     private Integer status;
 
     private Long createTime;
+    
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -72,4 +74,13 @@ public class UserLicence {
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
 }

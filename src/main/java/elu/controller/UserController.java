@@ -124,6 +124,7 @@ public class UserController {
 	public String queryUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String uid=(String)request.getSession().getAttribute("uid");
+		System.out.println("uid=="+uid);
 		User user=userService.queryUserByUId(uid);
         Integer id = user.getId();
         UserLicence userLicence = userService.queryUserLicenceByUId(id);
@@ -424,8 +425,12 @@ public class UserController {
 	@ResponseBody
 	public String checkCarLicence(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		
+		Map<String,Object> map=RRUtil.para2LimitMap(request);		
 		String uid=(String)request.getSession().getAttribute("uid");
 	    String status = request.getParameter("status");
+	    String remark = (String)map.get("remark");
+	    
 		User user=userService.queryUserByUId(uid);
         Integer id = user.getId();
         UserLicence userLicence = userService.queryUserLicenceByUId(id);
@@ -434,11 +439,13 @@ public class UserController {
         Car carStatus = new Car();
         carStatus.setStatus(Integer.parseInt(status));
         carStatus.setId(car.getId());
+        carStatus.setRemark(remark);
         userService.updateCar(carStatus);
         
         UserLicence licence = new UserLicence();
         licence.setId(userLicence.getId());
         licence.setStatus(Integer.parseInt(status));
+        licence.setRemark(remark);
         userService.updateUserLicence(licence);
         
     	resMap.put("retCode", "200");
@@ -446,4 +453,6 @@ public class UserController {
 		
 		return RRUtil.getJsonRes(request,resMap);
 	}
+	
+	
 }

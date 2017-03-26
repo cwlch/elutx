@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -86,7 +87,7 @@ public class WeixinController {
         //用户注册
         User userModel = userService.queryUserByUId(openId);
         
-        if(userModel == null){
+        if(userModel == null && !StringUtils.isEmpty(openId)){
         	System.out.println("用户未注册，需保存用户信息");
         	//新增用户
             User user = new User();
@@ -101,8 +102,6 @@ public class WeixinController {
         }
         
         request.getSession().setAttribute("uid", openId);
-      
-        
         
         System.out.println("-------");
         try {

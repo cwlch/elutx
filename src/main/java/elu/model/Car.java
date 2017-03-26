@@ -22,6 +22,8 @@ public class Car {
     private Long createTime;
 
     private Integer isStop;
+    
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -110,4 +112,13 @@ public class Car {
     public void setIsStop(Integer isStop) {
         this.isStop = isStop;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
 }

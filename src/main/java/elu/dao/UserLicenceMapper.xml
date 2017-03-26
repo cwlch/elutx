@@ -10,9 +10,10 @@
     <result column="licence_img" property="licenceImg" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id,real_name, licence_id, licence_img, status, create_time
+    id, user_id,real_name, licence_id, licence_img, status, create_time,remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,10 +27,10 @@
   </delete>
   <insert id="insert" parameterType="elu.model.UserLicence" >
     insert into user_licence (id, user_id,real_name,  licence_id, 
-      licence_img, status, create_time
+      licence_img, status, create_time,remark
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{realName,jdbcType=VARCHAR},  #{licenceId,jdbcType=VARCHAR}, 
-      #{licenceImg,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}
+      #{licenceImg,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="elu.model.UserLicence" >
@@ -56,6 +57,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -78,6 +82,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,6 +109,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
+      <if test="remark != null" >
+        remark = #{createTime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,6 +121,7 @@
     real_name =#{realName,jdbcType=VARCHAR},
       licence_id = #{licenceId,jdbcType=VARCHAR},
       licence_img = #{licenceImg,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
