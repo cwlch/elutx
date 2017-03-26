@@ -62,5 +62,4 @@ public class CarController {
 		return RRUtil.getJsonRes(request,resMap);
     }
 
-  
 }

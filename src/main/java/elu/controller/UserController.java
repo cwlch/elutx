@@ -404,4 +404,31 @@ public class UserController {
 		
 		return RRUtil.getJsonRes(request,resMap);
 	}
+	
+	@RequestMapping(value = "checkCarLicence", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String checkCarLicence(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String uid=(String)request.getSession().getAttribute("uid");
+	    String status = request.getParameter("status");
+		User user=userService.queryUserByUId(uid);
+        Integer id = user.getId();
+        UserLicence userLicence = userService.queryUserLicenceByUId(id);
+        Car car = userService.queryCarByUId(id);
+        
+        Car carStatus = new Car();
+        carStatus.setStatus(Integer.parseInt(status));
+        carStatus.setId(car.getId());
+        userService.updateCar(carStatus);
+        
+        UserLicence licence = new UserLicence();
+        licence.setId(userLicence.getId());
+        licence.setStatus(Integer.parseInt(status));
+        userService.updateUserLicence(licence);
+        
+    	resMap.put("retCode", "200");
+		resMap.put("retMsg", "审核成功！");
+		
+		return RRUtil.getJsonRes(request,resMap);
+	}
 }
