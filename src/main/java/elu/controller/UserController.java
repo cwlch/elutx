@@ -392,14 +392,29 @@ public class UserController {
 	public String checkSms(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String code = request.getParameter("verifyCode");
+		String telNum =  request.getParameter("telNum");
 		String uid=(String)request.getSession().getAttribute("uid");
 		VerifyCode oldCode = verifyCodeService.queryVerifyCodeByUid(uid);
+		User user=userService.queryUserByUId(uid);
+		
 		if(code != null && code.equals(oldCode.getVfCode())){
-			resMap.put("retCode", "200");
-			resMap.put("retMsg", "验证成功！");
+			User userInfo = new User();
+			userInfo.setId(user.getId());
+			userInfo.setPhone(telNum);
+			int count = userService.updateUser(userInfo);
+			if(count > 0){
+				resMap.put("retCode", "200");
+				resMap.put("retMsg", "验证成功！");
+				System.out.print("验证成功！");
+			}else{
+				resMap.put("retCode", "400");
+				resMap.put("retMsg", "用户信息不存在！");
+				System.out.print("验证码正确，用户信息不存在！");
+			}
 		}else{
 			resMap.put("retCode", "400");
 			resMap.put("retMsg", "验证码不正确！");
+			System.out.print("验证码："+code+"，验证码不正确！");
 		}
 		
 		return RRUtil.getJsonRes(request,resMap);
