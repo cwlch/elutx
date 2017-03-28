@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import elu.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +67,10 @@ public class DriverController {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 //		Map<String,Object> map=RRUtil.para2Map(request);
 		Map<String,Object> map=RRUtil.para2LimitMap(request);
+		if(map.containsKey("uid")){
+			User user=userService.queryUserByUId((String) map.get("uid"));
+			map.put("userId",user.getId());
+		}
 		List<DriverRecord> list=userService.queryDriverRecord(map);
 		resMap.put("result", list);
 		return RRUtil.getJsonRes(request,resMap);

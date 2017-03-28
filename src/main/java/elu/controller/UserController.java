@@ -64,7 +64,11 @@ public class UserController {
 	@ResponseBody
 	public String queryRequire(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
-		Map<String,Object> map=RRUtil.para2LimitMap(request);		
+		Map<String,Object> map=RRUtil.para2LimitMap(request);
+		if(map.containsKey("uid")){
+			User user=userService.queryUserByUId((String) map.get("uid"));
+			map.put("userId",user.getId());
+		}
 		List<UserRecord> list=userService.queryUserRecord(map);
 		resMap.put("result", list);
 		return RRUtil.getJsonRes(request,resMap);
