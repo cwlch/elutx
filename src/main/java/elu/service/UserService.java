@@ -233,6 +233,11 @@ public class UserService {
 		return list;
 	}
 
+	public List<UserRecord> checkUserStartRuntime(UserRecord record) {
+		List list = userRecordDao.checkUserStartRuntime(record);
+		return list;
+	}
+
 	
 	
 

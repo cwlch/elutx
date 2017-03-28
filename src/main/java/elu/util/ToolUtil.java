@@ -73,9 +73,7 @@ public class ToolUtil {
 	public static String getVerifyCode() {
 		
 		 String[] beforeShuffle = new String[] { "2", "3", "4", "5", "6", "7",  
-	                "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",  
-	                "k", "l", "m", "n", "o", "P", "q", "r", "s", "t", "u", "v",  
-	                "w", "x", "y", "z" };  
+	                "8", "9", "0","1"};  
         List list = Arrays.asList(beforeShuffle);  
         Collections.shuffle(list);  
         StringBuilder sb = new StringBuilder();  
@@ -83,7 +81,7 @@ public class ToolUtil {
             sb.append(list.get(i));  
         }  
         String afterShuffle = sb.toString();  
-        String result = afterShuffle.substring(5, 9);  
+        String result = afterShuffle.substring(3, 9);  
 		return result;
 	}
 	
@@ -107,4 +105,10 @@ public class ToolUtil {
 //        return data;
 //    }
 
+	
+	public static void main(String[] args) {
+		while(true){
+			System.out.println(getVerifyCode());
+		}
+	}
 }

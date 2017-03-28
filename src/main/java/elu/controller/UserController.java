@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 
 import elu.model.Areas;
 import elu.model.Car;
+import elu.model.DriverRecord;
 import elu.model.User;
 import elu.model.UserLicence;
 import elu.model.UserRecord;
@@ -55,7 +56,20 @@ public class UserController {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String text=RRUtil.para2Json(request);
 		UserRecord record=JSON.parseObject(text, UserRecord.class);
-		userService.publishInfo(record);
+		//lzx 判断司机发布行程是否在 之前发布时间的前后  半个小时后
+		List<UserRecord> list = userService.checkUserStartRuntime(record);
+		if(list != null && list.size() > 0){
+			resMap.put("retCode", "400");
+			resMap.put("retMsg", "发布时间半个小时内已经发布订单，不能发布");
+			System.out.println("判断乘客发布行程是否在 之前发布时间的前后  半个小时已经发布订单，不能发布");
+		}else{
+			userService.publishInfo(record);
+			resMap.put("retCode", "200");
+			resMap.put("retMsg", "发布成功！");
+			System.out.println("乘客发布信息成功！");
+		}
+		
+		
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	

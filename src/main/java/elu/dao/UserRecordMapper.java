@@ -28,4 +28,6 @@ public interface UserRecordMapper {
 	List queryUserRecordMatchList(@Param("d_start") String d_start, @Param("d_end") String d_end, @Param("runtime") String runtime);
 
 	List<UserRecord> queryUserRecordList();
+
+	List checkUserStartRuntime(UserRecord record);
 }

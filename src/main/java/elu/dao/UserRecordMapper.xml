@@ -210,13 +210,22 @@
   
   	<select id="checkStartRuntime" parameterType="elu.model.DriverRecord" resultType="elu.model.DriverRecord">
 		<![CDATA[
-		select user_id,d_date from driver_record t where  #{dDate,jdbcType=BIGINT} < (d_date+1000*60*30) and #{dDate,jdbcType=BIGINT} > (d_date-1000*60*30) and t.user_id = #{userId,jdbcType=INTEGER}
+		select user_id,d_date from driver_record t where  #{dDate,jdbcType=BIGINT} < (d_date+1000*60*30) and #{dDate,jdbcType=BIGINT} > (d_date-1000*60*30) 
+		and t.user_id = #{userId,jdbcType=INTEGER} and d_status != 2
+	   
 	    ]]>
 	</select>
 	
   <select id="queryUserRecordList" resultType="elu.model.UserRecord">
   		select id,u_date uDate from user_record t where u_status = '0' 
   </select>
-	
+  
+  	<select id="checkUserStartRuntime" parameterType="elu.model.UserRecord" resultType="elu.model.UserRecord">
+		<![CDATA[
+		select user_id,u_date from user_record t where  #{uDate,jdbcType=BIGINT} < (u_date+1000*60*30) and #{uDate,jdbcType=BIGINT} > (u_date-1000*60*30) and t.user_id = #{userId,jdbcType=INTEGER} 
+		and u_status != 2
+	    ]]>
+	</select>
+  
   
 </mapper>
