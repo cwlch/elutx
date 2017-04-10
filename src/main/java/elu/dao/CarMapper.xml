@@ -186,4 +186,43 @@
     <select id="queryCarTypeList"  resultType="elu.model.CarInfo"  parameterType="string" >
        select t.FIRST_LETTER firstLetter,t.MAKE_NAME modelName, t.MODEL_NAME makeName from car_type t where t.make_name  =  #{makeName}
     </select>
+  <select id="selectByValue" resultMap="BaseResultMap" parameterType="hashmap" >
+    select
+    <include refid="Base_Column_List" />
+    from car
+    where 1=1
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="carNo != null" >
+        and car_no = #{carNo,jdbcType=VARCHAR}
+      </if>
+      <if test="brand != null" >
+        and brand = #{brand,jdbcType=VARCHAR}
+      </if>
+      <if test="carLord != null" >
+        and car_lord = #{carLord,jdbcType=VARCHAR}
+      </if>
+      <if test="regTime != null" >
+        and reg_time = #{regTime,jdbcType=BIGINT}
+      </if>
+      <if test="regImg != null" >
+        and reg_img = #{regImg,jdbcType=VARCHAR}
+      </if>
+      <if test="carType != null" >
+        and car_type = #{carType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=BIGINT}
+      </if>
+      <if test="isStop != null" >
+        and is_stop = #{isStop,jdbcType=INTEGER}
+      </if>
+      <if test="remark != null" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+  </select>
 </mapper>

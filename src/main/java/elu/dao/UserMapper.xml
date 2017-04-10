@@ -173,6 +173,26 @@
 		from user
 		where uid = #{uid,jdbcType=VARCHAR}
 	</select>
+	<select id="selectByValue" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where 1=1
+		<if test="uid != null" >
+			and uid = #{uid,jdbcType=VARCHAR}
+		</if>
+		<if test="phone != null" >
+			and phone = #{phone,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectByPhone" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where phone = #{phone,jdbcType=VARCHAR}
+	</select>
 	
 		
 </mapper>

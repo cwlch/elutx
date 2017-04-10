@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +42,10 @@ import elu.util.sendSmsUtil;
 @Controller
 @RequestMapping(value = "user")
 public class UserController {
-	
+
+	private static Logger logger = LoggerFactory.getLogger("eluLogger");
+
+
 	@Autowired
 	private UserService userService;
 	
@@ -136,6 +141,24 @@ public class UserController {
         resMap.put("car",car);
 		return RRUtil.getJsonRes(request,resMap);
 	}
+	@RequestMapping(value = "queryPhoneUser", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryPhoneUser(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+		String phone=request.getParameter("phone");
+		User user=userService.queryUserByPhone(phone);
+        Integer id = user.getId();
+        UserLicence userLicence = userService.queryUserLicenceByUId(id);
+        Car car = userService.queryCarByUId(id);
+        if(userLicence != null && userLicence.getStatus() == 3 && car.getStatus() == 3){
+            resMap.put("status",1);
+        }else{
+            resMap.put("status",0);
+        }
+		resMap.put("user", user);
+        resMap.put("car",car);
+		return RRUtil.getJsonRes(request,resMap);
+	}
 	
 	@RequestMapping(value = "queryUserInfo", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -174,7 +197,7 @@ public class UserController {
 	@RequestMapping(value = "addCarAndLicence", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String addCarAndLicence(HttpServletRequest request, HttpServletResponse response) {
-		String path="/alidata/server/tomcat-7.0.54/webapps/images/";
+		String path="/usr/share/nginx/elutx/images/";
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String text=RRUtil.para2Json(request);
@@ -182,11 +205,11 @@ public class UserController {
 		String carImgName=car.getUserId()+"_car.jpg";
 		String liceneceImgName=car.getUserId()+"_licence.jpg";
 		String carImgCode=request.getParameter("carImgCode");
-		if(carImgCode!=null && "".equals(carImgCode)){
+		if(carImgCode!=null && !"".equals(carImgCode)){
 			Base64ImgUtil.GenerateImage(carImgCode, path + carImgName);
 		}
 		String liceneceImgCode=request.getParameter("liceneceImgCode");
-		if(liceneceImgCode!=null && "".equals(liceneceImgCode)){
+		if(liceneceImgCode!=null && !"".equals(liceneceImgCode)){
 			Base64ImgUtil.GenerateImage(liceneceImgCode, path + liceneceImgName);
 		}
 		car.setCreateTime(System.currentTimeMillis());
@@ -206,7 +229,7 @@ public class UserController {
 	@RequestMapping(value = "updateCarAndLicence", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String updateCarAndLicence(HttpServletRequest request, HttpServletResponse response) {
-		String path="/alidata/server/tomcat-7.0.54/webapps/images/";
+		String path="/usr/share/nginx/elutx/images/";
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
 		String text=RRUtil.para2Json(request);
@@ -216,11 +239,15 @@ public class UserController {
 		String carImgCode=request.getParameter("carImgCode");
 		int carId=Integer.valueOf(request.getParameter("carId"));
 		car.setId(carId);
-		if(carImgCode!=null && "".equals(carImgCode)){
+		logger.info(carImgCode);
+		System.out.println(carImgCode);
+		if(carImgCode!=null && !"".equals(carImgCode)){
 			Base64ImgUtil.GenerateImage(carImgCode, path + carImgName);
 		}
 		String liceneceImgCode=request.getParameter("liceneceImgCode");
-		if(liceneceImgCode!=null && "".equals(liceneceImgCode)){
+		logger.info(liceneceImgCode);
+		System.out.println(liceneceImgCode);
+		if(liceneceImgCode!=null && !"".equals(liceneceImgCode)){
 			Base64ImgUtil.GenerateImage(liceneceImgCode, path + liceneceImgName);
 		}
 		car.setCreateTime(System.currentTimeMillis());
@@ -439,38 +466,7 @@ public class UserController {
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
-	@RequestMapping(value = "checkCarLicence", produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public String checkCarLicence(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, Object> resMap=RRUtil.getStandardMap();
-		
-		Map<String,Object> map=RRUtil.para2LimitMap(request);		
-		String uid=(String)request.getSession().getAttribute("uid");
-	    String status = request.getParameter("status");
-	    String remark = (String)map.get("remark");
-	    
-		User user=userService.queryUserByUId(uid);
-        Integer id = user.getId();
-        UserLicence userLicence = userService.queryUserLicenceByUId(id);
-        Car car = userService.queryCarByUId(id);
-        
-        Car carStatus = new Car();
-        carStatus.setStatus(Integer.parseInt(status));
-        carStatus.setId(car.getId());
-        carStatus.setRemark(remark);
-        userService.updateCar(carStatus);
-        
-        UserLicence licence = new UserLicence();
-        licence.setId(userLicence.getId());
-        licence.setStatus(Integer.parseInt(status));
-        licence.setRemark(remark);
-        userService.updateUserLicence(licence);
-        
-    	resMap.put("retCode", "200");
-		resMap.put("retMsg", "审核成功！");
-		
-		return RRUtil.getJsonRes(request,resMap);
-	}
+
 	
 	
 }

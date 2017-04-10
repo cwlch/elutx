@@ -155,7 +155,9 @@ public class UserService {
 	public User queryUserByUId(String uid) {
 		return userDao.selectByUid(uid);
 	}
-	
+	public User queryUserByPhone(String phone){
+		return userDao.selectByPhone(phone);
+	}
 	public User queryUserById(int id){
 		return userDao.selectByPrimaryKey(id);
 	}
@@ -178,7 +180,7 @@ public class UserService {
 	public UserLicence queryUserLicenceByUId(int userId) {
 		return userLicenceDao.selectByUid(userId);
 	}
-	
+
 	public int addCar(Car car){
 		Car tmpCar=queryCarByUId(car.getUserId());
 		if(tmpCar==null){
@@ -236,6 +238,14 @@ public class UserService {
 	public List<UserRecord> checkUserStartRuntime(UserRecord record) {
 		List list = userRecordDao.checkUserStartRuntime(record);
 		return list;
+	}
+
+	public List<UserLicence> queryUserLicenceByMap(Map map){
+		return userLicenceDao.selectByValue(map);
+	}
+
+	public List<Car> queryCarLicenceByMap(Map map){
+		return carDao.selectByValue(map);
 	}
 
 	

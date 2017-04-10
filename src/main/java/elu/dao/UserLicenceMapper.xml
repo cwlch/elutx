@@ -110,7 +110,7 @@
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
       <if test="remark != null" >
-        remark = #{createTime,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -127,9 +127,36 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
    <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  select
+  <include refid="Base_Column_List" />
+  from user_licence
+  where user_id = #{userId,jdbcType=INTEGER}
+</select>
+  <select id="selectByValue" resultMap="BaseResultMap" parameterType="hashmap" >
+    select
     <include refid="Base_Column_List" />
     from user_licence
-    where user_id = #{userId,jdbcType=INTEGER}
+    where 1=1
+    <if test="userId != null" >
+       and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="realName != null" >
+      and  real_name =#{realName,jdbcType=VARCHAR}
+    </if>
+    <if test="licenceId != null" >
+      and  licence_id = #{licenceId,jdbcType=VARCHAR}
+    </if>
+    <if test="licenceImg != null" >
+      and  licence_img = #{licenceImg,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and  status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime,jdbcType=BIGINT}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
   </select>
 </mapper>

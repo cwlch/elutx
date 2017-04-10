@@ -1,7 +1,9 @@
 package elu.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import elu.model.UserLicence;
 import org.apache.ibatis.annotations.Param;
 
 import elu.model.Car;
@@ -27,4 +29,6 @@ public interface CarMapper {
 	List<CarInfo> queryCarBrandList();
 
 	List<CarInfo> queryCarTypeList(@Param("makeName") String makeName);
+
+    List<Car> selectByValue(Map map);
 }
