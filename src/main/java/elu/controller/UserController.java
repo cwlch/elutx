@@ -395,6 +395,13 @@ public class UserController {
 		String uid=(String)request.getSession().getAttribute("uid");
 		String operateType = "1";
 		String code = ToolUtil.getVerifyCode();
+		User userInfo = userService.queryUserByPhone(telNum);
+		if(userInfo != null){
+			resMap.put("retCode", "400");
+			resMap.put("retMsg", "telNum号码已注册，不能重复注册。");
+		    return RRUtil.getJsonRes(request,resMap);
+		}
+		
 		//发送验证码
 		sendSmsUtil.sendSms(telNum, code);
 		
