@@ -207,7 +207,7 @@
     LEFT JOIN car on driver_record.user_id = car.user_id 
     where 1=1
     <if test="userId != null" >
-       and user_id = #{userId,jdbcType=INTEGER}
+       and driver_record.user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="carId != null" >
        and car_id = #{carId,jdbcType=INTEGER}
@@ -240,9 +240,9 @@
        and d_status != 2
       </if>
       <if test="createTime != null" >
-       and create_time = #{createTime,jdbcType=BIGINT}
+       and driver_record.create_time = #{createTime,jdbcType=BIGINT}
       </if>
-       order by create_time desc limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
+       order by driver_record.create_time desc limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
   </select>
   
     <select id="queryDriverRecordMatchList" resultType="elu.model.DriverRecord">
