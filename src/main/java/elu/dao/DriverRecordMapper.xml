@@ -187,9 +187,9 @@
   </update>
    <select id="selectByValue" resultType="elu.model.DriverRecord" parameterType="hashmap" >
     select 
-    id,
-    user_id userId,
-    car_id carId,
+    driver_record.id id,
+    driver_record.user_id userId,
+    driver_record.car_id carId,
     d_start dStart,
     d_start_str dStartStr,
     d_end dEnd,
@@ -199,8 +199,8 @@
     d_price dPrice,
     d_remark dRemark,
     d_status dStatus,
-    create_time createTime ,
-    user.status user_status,
+    driver_record.create_time createTime ,
+    user_licence.status user_status,
     car.status car_status 
     from driver_record 
     left join user_licence on driver_record.user_id = user_licence.user_id 
