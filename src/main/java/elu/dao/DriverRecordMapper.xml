@@ -185,10 +185,26 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-   <select id="selectByValue" resultMap="BaseResultMap" parameterType="hashmap" >
+   <select id="selectByValue" resultType="elu.model.DriverRecord" parameterType="hashmap" >
     select 
-    <include refid="Base_Column_List" />
-    from driver_record
+    id,
+    user_id userId,
+    car_id carId,
+    d_start dStart,
+    d_start_str dStartStr,
+    d_end dEnd,
+    d_end_str dEndStr,
+    d_count dCount,
+    d_date dDate,
+    d_price dPrice,
+    d_remark dRemark,
+    d_status dStatus,
+    create_time createTime ,
+    user.status user_status,
+    car.status car_status 
+    from driver_record 
+    left join user_licence on driver_record.user_id = user_licence.user_id 
+    LEFT JOIN car on driver_record.user_id = car.user_id 
     where 1=1
     <if test="userId != null" >
        and user_id = #{userId,jdbcType=INTEGER}

@@ -72,6 +72,15 @@ public class DriverController {
 			map.put("userId",user.getId());
 		}
 		List<DriverRecord> list=userService.queryDriverRecord(map);
+		if(list != null && list.size() > 0){
+			for(DriverRecord record : list){
+				 if(record.getUserStatus() == 3 && record.getCarStatus() == 3){
+			         record.setStatus(1);
+			     }else{
+			         record.setStatus(0);
+			     }
+			}
+		}
 		resMap.put("result", list);
 		return RRUtil.getJsonRes(request,resMap);
 	}

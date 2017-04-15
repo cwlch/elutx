@@ -26,6 +26,11 @@ public class DriverRecord {
     private Integer dStatus;
 
     private Long createTime;
+    
+    private Integer userStatus;
+    private Integer carStatus ;
+    
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -130,4 +135,30 @@ public class DriverRecord {
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
     }
+
+	public Integer getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(Integer userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public Integer getCarStatus() {
+		return carStatus;
+	}
+
+	public void setCarStatus(Integer carStatus) {
+		this.carStatus = carStatus;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+    
+    
 }
