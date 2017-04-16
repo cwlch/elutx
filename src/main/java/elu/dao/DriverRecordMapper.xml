@@ -200,8 +200,8 @@
     d_remark dRemark,
     d_status dStatus,
     driver_record.create_time createTime ,
-    user_licence.status user_status,
-    car.status car_status 
+    user_licence.status userStatus,
+    car.status carStatus 
     from driver_record 
     left join user_licence on driver_record.user_id = user_licence.user_id 
     LEFT JOIN car on driver_record.user_id = car.user_id 
