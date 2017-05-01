@@ -2,6 +2,7 @@ package elu.dao;
 
 import elu.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserMapper {
@@ -20,4 +21,6 @@ public interface UserMapper {
     User selectByUid(String id);
 
     User selectByPhone(String phone);
+
+    List<User> selectByValue(Map map);
 }

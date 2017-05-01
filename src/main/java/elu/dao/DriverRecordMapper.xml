@@ -253,5 +253,121 @@
   <select id="queryDriverRecordList" resultType="elu.model.DriverRecord">
   		select id,d_date dDate from driver_record t where d_status = '0' 
   </select>
+
+  <select id="queryDriverRecordLike" resultType="elu.model.DriverRecord" parameterType="hashmap" >
+    select
+    driver_record.id id,
+    driver_record.user_id userId,
+    driver_record.car_id carId,
+    d_start dStart,
+    d_start_str dStartStr,
+    d_end dEnd,
+    d_end_str dEndStr,
+    d_count dCount,
+    d_date dDate,
+    d_price dPrice,
+    d_remark dRemark,
+    d_status dStatus,
+    driver_record.create_time createTime ,
+    user_licence.status userStatus,
+    car.status carStatus
+    from driver_record
+    left join user_licence on driver_record.user_id = user_licence.user_id
+    LEFT JOIN car on driver_record.user_id = car.user_id
+    where 1=1
+    <if test="userId != null" >
+      and driver_record.user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="carId != null" >
+      and car_id = #{carId,jdbcType=INTEGER}
+    </if>
+    <if test="dStartStr != null" >
+      and d_start_str like CONCAT('%','${dStartStr}','%' )
+    </if>
+    <if test="dEndStr != null" >
+      and d_end_str  like CONCAT('%','${dEndStr}','%' )
+    </if>
+    <!--<if test="dStart != null" >
+      and d_start like CONCAT(#{dStart},'%')
+    </if>
+    <if test="dEnd != null" >
+      and d_end like CONCAT(#{dEnd},'%')
+    </if>-->
+    <if test="dCount != null" >
+      and d_count = #{dCount,jdbcType=INTEGER}
+    </if>
+    <if test="startTime != null" >
+      and d_date &gt;= #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null" >
+      and d_date &lt;= #{endTime,jdbcType=BIGINT}
+    </if>
+    <if test="dPrice != null" >
+      and d_price = #{dPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="dRemark != null" >
+      and d_remark = #{dRemark,jdbcType=VARCHAR}
+    </if>
+    <if test="dStatus != null" >
+      and d_status = #{dStatus,jdbcType=INTEGER}
+    </if>
+    <if test="dStatus == null" >
+      and d_status != 2
+    </if>
+    <if test="createTime != null" >
+      and driver_record.create_time = #{createTime,jdbcType=BIGINT}
+    </if>
+    order by driver_record.d_date limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
+    <!--<if test="dStartStr != null" >
+      and d_start_str like CONCAT('%','${dStartStr}','%' )
+    </if>
+    <if test="dEndStr != null" >
+      and d_end_str  like CONCAT('%','${dEndStr}','%' )
+    </if>
+    <if test="startTime != null" >
+      and d_date &gt;= #{startTime,jdbcType=BIGINT}
+    </if>
+    <if test="endTime != null" >
+      and d_date &lt;= #{endTime,jdbcType=BIGINT}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="carId != null" >
+      and  car_id = #{carId,jdbcType=INTEGER}
+    </if>-->
+    <!--
+    <if test="dStart != null" >
+      and  d_start = #{dStart,jdbcType=VARCHAR}
+    </if>
+    <if test="dEnd != null" >
+      and  d_end = #{dEnd,jdbcType=VARCHAR}
+    </if>
+    <if test="dDate != null" >
+      and  d_date = #{dDate,jdbcType=BIGINT}
+    </if>
+    -->
+
+    <!--<if test="dCount != null" >
+      and  d_count = #{dCount,jdbcType=INTEGER}
+    </if>
+
+    <if test="dPrice != null" >
+      and  d_price = #{dPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="dRemark != null" >
+      and  d_remark = #{dRemark,jdbcType=VARCHAR}
+    </if>
+    <if test="dStatus != null" >
+      and  d_status = #{dStatus,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null" >
+      and  create_time = #{createTime,jdbcType=BIGINT}
+    </if>
+    order by driver_record.d_date limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}-->
+  </select>
   
 </mapper>
+
+
+

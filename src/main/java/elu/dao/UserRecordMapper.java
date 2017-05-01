@@ -23,6 +23,8 @@ public interface UserRecordMapper {
     
     List<UserRecord> selectByValue(Map map);
 
+    List<UserRecord> queryUserRecordqLike(Map map);
+
 	List checkStartRuntime(DriverRecord record);
 
 	List queryUserRecordMatchList(@Param("d_start") String d_start, @Param("d_end") String d_end, @Param("runtime") String runtime);

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import elu.util.RegUtil;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,7 +93,7 @@ public class WeixinController {
         	//新增用户
             User user = new User();
             user.setUid(obj.getString("openid"));
-            user.setUserName(obj.getString("nickname"));
+            user.setUserName(RegUtil.replaceSpecStr(obj.getString("nickname")));
             user.setGender(obj.getInteger("sex"));
             String address = obj.getString("province") +"-" +obj.getString("city") + "-"+obj.getString("country");
             user.setHomeStr(address);
@@ -108,7 +109,7 @@ public class WeixinController {
             if(state.equals("passenger")){
                 response.sendRedirect("http://www.elutx.cn/index.html#!/passenger");
             }else{
-                response.sendRedirect("http://www.elutx.cn/index.html");
+                response.sendRedirect("http://www.elutx.cn/index.html#!/driver");
             }
         } catch (IOException e) {
             e.printStackTrace();

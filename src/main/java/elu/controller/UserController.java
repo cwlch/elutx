@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import elu.model.*;
+import elu.service.ActUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
-import elu.model.Areas;
-import elu.model.Car;
-import elu.model.DriverRecord;
-import elu.model.User;
-import elu.model.UserLicence;
-import elu.model.UserRecord;
-import elu.model.VerifyCode;
 import elu.service.AreasService;
 import elu.service.UserService;
 import elu.service.VerifyCodeService;
@@ -54,6 +49,9 @@ public class UserController {
 	
 	@Autowired
 	private VerifyCodeService verifyCodeService;
+
+	@Autowired
+	private ActUserService actUserService;
 	
 	@RequestMapping(value = "publishRequire", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -88,7 +86,8 @@ public class UserController {
 			User user=userService.queryUserByUId((String) map.get("uid"));
 			map.put("userId",user.getId());
 		}
-		List<UserRecord> list=userService.queryUserRecord(map);
+//		List<UserRecord> list=userService.queryUserRecord(map);
+		List<UserRecord> list=userService.queryUserRecordqLike(map);
 		resMap.put("result", list);
 		return RRUtil.getJsonRes(request,resMap);
 	}
@@ -164,9 +163,16 @@ public class UserController {
 	@ResponseBody
 	public String queryUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap=RRUtil.getStandardMap();
+//		String uid="o_UN0wlMQJSRpJ2wdqXIgRTxLBeg";//(String)request.getSession().getAttribute("uid");
 		String uid=(String)request.getSession().getAttribute("uid");
 		System.out.println("uid=="+uid);
+		if(uid == null){
+			return RRUtil.getJsonRes(request,RRUtil.getUnAuth());
+		}
 		User user=userService.queryUserByUId(uid);
+		if(user == null){
+			return RRUtil.getJsonRes(request,RRUtil.getUnAuth());
+		}
         Integer id = user.getId();
         UserLicence userLicence = userService.queryUserLicenceByUId(id);
         Car car = userService.queryCarByUId(id);
@@ -472,7 +478,69 @@ public class UserController {
 		
 		return RRUtil.getJsonRes(request,resMap);
 	}
-	
+
+	@RequestMapping(value = "updateIdCard", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String updateIdCard(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+//		String uid="o_UN0wlMQJSRpJ2wdqXIgRTxLBeg";
+		String uid = (String) request.getSession().getAttribute("uid");
+		System.out.println("uid==" + uid);
+		if(uid == null){
+			return RRUtil.getJsonRes(request,RRUtil.getUnAuth());
+		}
+		User user=userService.queryUserByUId(uid);
+		if(user == null){
+			return RRUtil.getJsonRes(request,RRUtil.getUnAuth());
+		}
+		if(user.getIdCard()!=null &&  !("".equals(user.getIdCard()))){
+			HashMap<String, Object> map = RRUtil.getErrorMap("400", "该身份证号已经参加过此活动");
+			return RRUtil.getJsonRes(request, map);
+		}
+		Map<String,String> actQMap=new HashMap<String, String>();
+		actQMap.put("userId",uid);
+		List<ActUser> actList=actUserService.selectByValue(actQMap);
+		if(actList.size()>0){
+			HashMap<String, Object> map = RRUtil.getErrorMap("400", "此用户已经参加过此活动");
+			return RRUtil.getJsonRes(request, map);
+		}
+		String idCard=request.getParameter("idCard");
+		Map<String,String> qMap=new HashMap<String, String>();
+		qMap.put("idCard",idCard);
+		List<User> list=userService.queryUserList(qMap);
+		if(list.size()>0){
+			HashMap<String, Object> map = RRUtil.getErrorMap("400", "此身份证号已使用");
+			return RRUtil.getJsonRes(request, map);
+		}
+		user.setIdCard(idCard);
+		userService.updateUser(user);
+		if(user.getCreateTime()>1493136000000l){
+//		if(user.getCreateTime()>1){
+			ActUser actUser=new ActUser();
+			actUser.setActId(1);
+			actUser.setUserId(uid);
+			actUser.setCreateTime(System.currentTimeMillis());
+			actUserService.insert(actUser);
+			int queue=actUser.getId();
+			resMap.put("queue",queue);
+		}
+		return RRUtil.getJsonRes(request,resMap);
+	}
+
+	@RequestMapping(value = "queryQueueId", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryQueueId(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+		String uid=request.getParameter("userId");
+		Map<String,String> actQMap=new HashMap<String, String>();
+		actQMap.put("userId",uid);
+		List<ActUser> actList=actUserService.selectByValue(actQMap);
+		if(actList.size()==1){
+			ActUser actUser=actList.get(0);
+			resMap.put("queue",actUser.getId());
+		}
+		return RRUtil.getJsonRes(request,resMap);
+	}
 
 	
 	

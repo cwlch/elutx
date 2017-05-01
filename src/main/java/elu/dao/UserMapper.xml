@@ -14,10 +14,11 @@
 		<result column="create_time" property="createTime" jdbcType="BIGINT" />
 		<result column="is_stop" property="isStop" jdbcType="INTEGER" />
 		<result column="photoUrl" property="photoUrl" jdbcType="VARCHAR" />
+		<result column="id_card" property="idCard" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, uid, user_name, user_pwd, phone, birth, gender, home, home_str,photoUrl,
-		create_time,
+		create_time,id_card,
 		is_stop
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -35,13 +36,13 @@
 		insert into user (id, uid, user_name,
 		user_pwd, phone, birth,
 		gender, home, home_str,
-		create_time, is_stop,photoUrl)
+		create_time, is_stop,photoUrl,id_card)
 		values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{userPwd,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{birth,jdbcType=BIGINT},
 		#{gender,jdbcType=INTEGER}, #{home,jdbcType=VARCHAR},
 		#{homeStr,jdbcType=VARCHAR},
-		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER},#{photoUrl,jdbcType=VARCHAR})
+		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER},#{photoUrl,jdbcType=VARCHAR},#{idCard,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="elu.model.User">
 		insert into user
@@ -149,6 +150,9 @@
 			<if test="isStop != null">
 				is_stop = #{isStop,jdbcType=INTEGER},
 			</if>
+			<if test="idCard != null">
+				id_card = #{idCard,jdbcType=VARCHAR}
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -184,6 +188,9 @@
 		</if>
 		<if test="phone != null" >
 			and phone = #{phone,jdbcType=VARCHAR}
+		</if>
+		<if test="idCard != null" >
+			and id_card = #{idCard,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="selectByPhone" resultMap="BaseResultMap"

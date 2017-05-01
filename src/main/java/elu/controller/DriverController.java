@@ -71,7 +71,8 @@ public class DriverController {
 			User user=userService.queryUserByUId((String) map.get("uid"));
 			map.put("userId",user.getId());
 		}
-		List<DriverRecord> list=userService.queryDriverRecord(map);
+//		List<DriverRecord> list=userService.queryDriverRecord(map);
+		List<DriverRecord> list=userService.queryDriverRecordLike(map);
 		if(list != null && list.size() > 0){
 			for(DriverRecord record : list){
 				 if(record.getUserStatus() != null && record.getUserStatus() == 3 && record.getCarStatus() != null && record.getCarStatus() == 3){

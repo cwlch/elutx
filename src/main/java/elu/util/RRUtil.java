@@ -96,7 +96,7 @@ public class RRUtil {
 	}
 	
 	public static HashMap<String, Object> getUnAuth() {
-		HashMap<String, Object> map = getErrorMap("400", "未登录");
+		HashMap<String, Object> map = getErrorMap("400", "未登录,请使用微信访问");
 		return map;
 	}
 	

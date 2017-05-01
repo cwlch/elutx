@@ -202,6 +202,53 @@
       order by create_time desc limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
     
   </select>
+  <select id="queryUserRecordqLike" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user_record
+    where 1=1
+      <if test="uStartStr != null" >
+        and u_start_str like CONCAT('%','${uStartStr}','%' )
+      </if>
+      <if test="uEndStr != null" >
+        and u_end_str  like CONCAT('%','${uEndStr}','%' )
+      </if>
+      <if test="userId != null" >
+       and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <!--<if test="uStart != null" >
+       and u_start like CONCAT(#{uStart},'%')
+      </if>
+      <if test="uEnd != null" >
+       and  u_end like  CONCAT(#{uEnd},'%')
+      </if>-->
+      <if test="uCount != null" >
+       and u_count = #{uCount,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null" >
+       and u_date &gt;= #{startTime,jdbcType=BIGINT}
+      </if>
+      <if test="endTime != null" >
+       and u_date &lt;= #{endTime,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null" >
+       and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="uStatus != null" >
+       and u_status = #{uStatus,jdbcType=INTEGER}
+      </if>
+      <if test="uStatus == null" >
+       and u_status != 2
+      </if>
+      <if test="createTime != null" >
+       and create_time = #{createTime,jdbcType=BIGINT}
+      </if>
+
+
+
+      order by u_date limit #{page,jdbcType=INTEGER},#{per,jdbcType=INTEGER}
+
+  </select>
   
  <select id="queryUserRecordMatchList" resultType="elu.model.UserRecord">
   		select * from user_record t where  t.u_start like  CONCAT(#{d_start},'%')  and t.u_end like  CONCAT(#{d_end},'%') 

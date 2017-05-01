@@ -24,6 +24,8 @@ public class User {
     private Integer isStop;
     
     private String photoUrl;
+
+    private String idCard;
     
 
     public Integer getId() {
@@ -121,7 +123,13 @@ public class User {
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
-    
-    
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
     
 }

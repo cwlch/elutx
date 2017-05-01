@@ -82,6 +82,29 @@ public class UserService {
 		return userRecordDao.selectByValue(map);
 	}
 
+	public List<UserRecord> queryUserRecordqLike(Map<String, Object> map) {
+		if (map.containsKey("uDate")) {
+			long startTime = Long.valueOf((String) map.get("uDate"));
+			long endTime = calcEndTime(startTime);
+			map.put("startTime", startTime);
+			map.put("endTime", endTime);
+		}
+
+		if (map.containsKey("uStart")) {
+//			String uStart = (String)map.get("uStart");
+//			Areas areas = areasDao.selectByPrimaryKey(uStart);
+			map.put("uStartStr", (String)map.get("uStart"));
+		}
+
+		if (map.containsKey("uEnd")) {
+//			String uEnd = (String)map.get("uEnd");
+//			Areas areas = areasDao.selectByPrimaryKey(uEnd);
+			map.put("uEndStr", (String)map.get("uEnd"));
+		}
+
+		return userRecordDao.queryUserRecordqLike(map);
+	}
+
 	public List<DriverRecord> queryDriverRecord(Map<String, Object> map) {
 		if (map.containsKey("dDate")) {
 			long startTime = Long.valueOf((String) map.get("dDate"));
@@ -104,6 +127,26 @@ public class UserService {
 		
 		
 		return driverRecordDao.selectByValue(map);
+	}
+
+	public List<DriverRecord> queryDriverRecordLike(Map<String, Object> map) {
+		if (map.containsKey("dDate")) {
+			long startTime = Long.valueOf((String) map.get("dDate"));
+			long endTime = calcEndTime(startTime);
+			map.put("startTime", startTime);
+			map.put("endTime", endTime);
+		}
+
+		if (map.containsKey("dStart")) {
+			map.put("dStartStr", (String)map.get("dStart"));
+		}
+
+		if (map.containsKey("dEnd")) {
+			map.put("dEndStr", (String)map.get("dEnd"));
+		}
+
+
+		return driverRecordDao.queryDriverRecordLike(map);
 	}
 
 	public int publishInfo(DriverRecord record) {
@@ -160,6 +203,10 @@ public class UserService {
 	}
 	public User queryUserById(int id){
 		return userDao.selectByPrimaryKey(id);
+	}
+
+	public List<User> queryUserList(Map map){
+		return userDao.selectByValue(map);
 	}
 	
 	public int addUserLicence(UserLicence userLicence){
