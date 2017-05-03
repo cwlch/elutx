@@ -1,5 +1,6 @@
 package elu.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import elu.util.RegUtil;
 import org.apache.shiro.session.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,6 +36,7 @@ import elu.util.ToolUtil;
 @Controller
 @RequestMapping(value = "weixin")
 public class WeixinController {
+    private static Logger logger = LoggerFactory.getLogger("eluLogger");
 	
 	@Autowired
 	private UserService userService;
@@ -43,6 +47,27 @@ public class WeixinController {
     public String checkWx(HttpServletRequest request, HttpServletResponse response) {
         HashMap<String, Object> resMap=RRUtil.getStandardMap();
         Map<String,Object> map=RRUtil.para2Map(request);
+
+        logger.info(map.toString());
+        System.out.print(map.toString());
+        BufferedReader br= null;
+        try {
+            br = request.getReader();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String inputLine;
+        String str = "";
+        try {
+            while ((inputLine = br.readLine()) != null) {
+                str += inputLine;
+            }
+            br.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e);
+        }
+        logger.info("body:"+str);
+        System.out.print("body:"+str);
         String signature = String.valueOf(map.get("signature"));
         String timestamp = String.valueOf(map.get("timestamp"));
         String nonce = String.valueOf(map.get("nonce"));
@@ -50,7 +75,6 @@ public class WeixinController {
         if (ToolUtil.checkSignature(signature, timestamp, nonce)) {
             return echostr;
         }
-        System.out.println("2222222666");
         return null;
     }
 
