@@ -8,7 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import elu.util.RegUtil;
+import elu.model.WeixinMessage;
+import elu.service.WeixinMessageService;
+import elu.util.*;
 import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +25,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import elu.model.User;
 import elu.service.UserService;
-import elu.util.HttpRequestUtil;
-import elu.util.RRUtil;
-import elu.util.ToolUtil;
 
 /**
  * Created by Ch on 17/2/20.
@@ -40,7 +39,8 @@ public class WeixinController {
 	
 	@Autowired
 	private UserService userService;
- 	
+	private WeixinMessageService weixinMessageService;
+
 	
     @RequestMapping(value = "checkWx", produces = "application/json; charset=utf-8")
     @ResponseBody
@@ -48,8 +48,6 @@ public class WeixinController {
         HashMap<String, Object> resMap=RRUtil.getStandardMap();
         Map<String,Object> map=RRUtil.para2Map(request);
 
-        logger.info(map.toString());
-        System.out.print(map.toString());
         BufferedReader br= null;
         try {
             br = request.getReader();
@@ -66,16 +64,32 @@ public class WeixinController {
         } catch (IOException e) {
             System.out.println("IOException: " + e);
         }
-        logger.info("body:"+str);
-        System.out.print("body:"+str);
-        String signature = String.valueOf(map.get("signature"));
-        String timestamp = String.valueOf(map.get("timestamp"));
-        String nonce = String.valueOf(map.get("nonce"));
-        String echostr = String.valueOf(map.get("echostr"));
-        if (ToolUtil.checkSignature(signature, timestamp, nonce)) {
-            return echostr;
-        }
-        return null;
+//        Map<String, String> xmlMap = xmlToMapUtil.xmlToMap(str);
+//        System.out.println(xmlMap.get("MsgId"));
+//        System.out.println("System get");
+//        System.out.println("body:"+xmlMap);
+//        logger.info(xmlMap.get("MsgId"));
+//        logger.info("get");
+//        logger.info("body:"+xmlMap);
+//        String ToUserName = xmlMap.get("ToUserName");
+//        String FromUserName = xmlMap.get("FromUserName");
+//
+//        String signature = String.valueOf(map.get("signature"));
+//        String timestamp = String.valueOf(map.get("timestamp"));
+//        String nonce = String.valueOf(map.get("nonce"));
+//        String echostr = String.valueOf(map.get("echostr"));
+//        if (ToolUtil.checkSignature(signature, timestamp, nonce)) {
+//            return echostr;
+//        }
+//        WeixinMessage message=new WeixinMessage();
+//        if("1".equals("1")){
+//            message=new WeixinMessage(FromUserName,ToUserName,String.valueOf(System.currentTimeMillis()),"text","欢迎关注e鹿同行公众号！e鹿同行平台免费为用户提供发布顺风车资讯发布服务，乘客、司机均可发布以及寻找顺风出行信息。" +
+//                    "温馨提示：e鹿同行平台免费提供发布顺风车信息服务,不与用户有任何利益关系。搭车前请自行协商,e鹿同行平台不负担任何责任!");
+//
+//        }
+
+
+        return weixinMessageService.genXml(str);
     }
 
     @RequestMapping(value = "authWx", produces = "application/json; charset=utf-8")
