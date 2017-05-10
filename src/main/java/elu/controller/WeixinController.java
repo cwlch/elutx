@@ -154,6 +154,8 @@ public class WeixinController {
         try {
             if(state.equals("passenger")){
                 response.sendRedirect("http://www.elutx.cn/index.html#!/passenger");
+            }else if(state.equals("invitation")){
+                response.sendRedirect("http://www.elutx.cn/invitation.html");
             }else{
                 response.sendRedirect("http://www.elutx.cn/index.html#!/driver");
             }
@@ -162,4 +164,22 @@ public class WeixinController {
         }
         return null;
     }
+
+
+//    @RequestMapping(value = "getInvitationImg", produces = "application/json; charset=utf-8")
+//    @ResponseBody
+//    public String getInvitationImg(HttpServletRequest request, HttpServletResponse response) {
+//        String id=request.getParameter("id");
+//        String token = HttpRequestUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token",
+//                "grant_type=client_credential&appid=wx66ffeb28c23fa9fb&secret=8c26eb56a87fb2826051562fa9a9fd34");
+//        JSONObject tokenObj = JSON.parseObject(token);
+//        String access_token = tokenObj.getString("access_token");
+//        String str = "{\"action_name\": \"QR_LIMIT_SCENE\",\"action_info\": {\"scene\": {\"scene_id\": "+id+"}}}";
+//        JSONObject ticket = JSON.parseObject(HttpRequestUtil.sendPost("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+access_token,
+//                str));
+//        HashMap<String, Object> resMap=RRUtil.getStandardMap();
+//        resMap.put("ticket",ticket.getString("ticket"));
+//        return RRUtil.getJsonRes(request,resMap);
+////        return ticket.getString("ticket");
+//    }
 }
