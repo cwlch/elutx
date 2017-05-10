@@ -26,6 +26,8 @@ public class User {
     private String photoUrl;
 
     private String idCard;
+
+    private String referId;
     
 
     public Integer getId() {
@@ -131,5 +133,12 @@ public class User {
     public void setIdCard(String idCard) {
         this.idCard = idCard;
     }
-    
+
+    public String getReferId() {
+        return referId;
+    }
+
+    public void setReferId(String referId) {
+        this.referId = referId;
+    }
 }

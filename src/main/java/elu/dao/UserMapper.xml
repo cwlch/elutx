@@ -15,11 +15,12 @@
 		<result column="is_stop" property="isStop" jdbcType="INTEGER" />
 		<result column="photoUrl" property="photoUrl" jdbcType="VARCHAR" />
 		<result column="id_card" property="idCard" jdbcType="VARCHAR" />
+		<result column="refer_id" property="referId" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, uid, user_name, user_pwd, phone, birth, gender, home, home_str,photoUrl,
 		create_time,id_card,
-		is_stop
+		is_stop,refer_id
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -42,7 +43,7 @@
 		#{userPwd,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{birth,jdbcType=BIGINT},
 		#{gender,jdbcType=INTEGER}, #{home,jdbcType=VARCHAR},
 		#{homeStr,jdbcType=VARCHAR},
-		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER},#{photoUrl,jdbcType=VARCHAR},#{idCard,jdbcType=VARCHAR})
+		#{createTime,jdbcType=BIGINT}, #{isStop,jdbcType=INTEGER},#{photoUrl,jdbcType=VARCHAR},#{idCard,jdbcType=VARCHAR},#{referId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="elu.model.User">
 		insert into user

@@ -138,6 +138,14 @@ public class WeixinController {
             user.setPhotoUrl( obj.getString("headimgurl"));
             userService.addUser(user);
             System.out.println("保存成功");
+        }else{
+            userModel.setUserName(RegUtil.replaceSpecStr(obj.getString("nickname")));
+            userModel.setGender(obj.getInteger("sex"));
+            String address = obj.getString("province") +"-" +obj.getString("city") + "-"+obj.getString("country");
+            userModel.setHomeStr(address);
+            userModel.setPhotoUrl( obj.getString("headimgurl"));
+            userService.updateUser(userModel);
+            System.out.println("更新成功");
         }
         
         request.getSession().setAttribute("uid", openId);

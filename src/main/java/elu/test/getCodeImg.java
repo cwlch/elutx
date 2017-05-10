@@ -17,7 +17,7 @@ public class getCodeImg {
                 "grant_type=client_credential&appid=wx66ffeb28c23fa9fb&secret=8c26eb56a87fb2826051562fa9a9fd34");
         JSONObject tokenObj = JSON.parseObject(token);
         String access_token = tokenObj.getString("access_token");
-        String str = "{\"action_name\": \"QR_LIMIT_SCENE\",\"action_info\": {\"scene\": {\"scene_id\": 123}}}";
+        String str = "{\"action_name\": \"QR_LIMIT_SCENE\",\"action_info\": {\"scene\": {\"scene_id\": 110}}}";
         System.out.println(str);
         JSONObject ticket = JSON.parseObject(HttpRequestUtil.sendPost("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+access_token,
                 str));
