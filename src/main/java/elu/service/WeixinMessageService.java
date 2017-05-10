@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Ch on 17/5/9.
  */
-@Service("userService")
+@Service("weixinMessageService")
 public class WeixinMessageService {
 
     @Autowired
