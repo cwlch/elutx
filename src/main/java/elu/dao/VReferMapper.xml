@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="elu.dao.VReferMapper" >
+  <resultMap id="BaseResultMap" type="elu.model.VRefer" >
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="photoUrl" property="photourl" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="elu.model.VRefer" >
+    insert into v_refer (user_name, photoUrl, num
+      )
+    values (#{userName,jdbcType=VARCHAR}, #{photourl,jdbcType=VARCHAR}, #{num,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="elu.model.VRefer" >
+    insert into v_refer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="photourl != null" >
+        photoUrl,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        #{photourl,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+   <select id="selectLimit" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_code
+    limit 10
+  </select>
+</mapper>

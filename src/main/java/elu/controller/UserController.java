@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 
 import elu.service.AreasService;
 import elu.service.UserService;
+import elu.service.VReferService;
 import elu.service.VerifyCodeService;
 import elu.util.Base64ImgUtil;
 import elu.util.RRUtil;
@@ -52,6 +53,9 @@ public class UserController {
 
 	@Autowired
 	private ActUserService actUserService;
+	
+	@Autowired
+	private VReferService vReferService;
 	
 	@RequestMapping(value = "publishRequire", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -539,6 +543,15 @@ public class UserController {
 			ActUser actUser=actList.get(0);
 			resMap.put("queue",actUser.getId());
 		}
+		return RRUtil.getJsonRes(request,resMap);
+	}
+	
+	@RequestMapping(value = "queryRefer", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String queryRefer(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+		List<VRefer> list=vReferService.selectLimit();
+	    resMap.put("list",list);
 		return RRUtil.getJsonRes(request,resMap);
 	}
 
