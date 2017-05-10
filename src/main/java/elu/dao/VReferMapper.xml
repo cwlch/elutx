@@ -6,6 +6,9 @@
     <result column="photoUrl" property="photourl" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="BIGINT" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    user_name, photoUrl, num
+  </sql>
   <insert id="insert" parameterType="elu.model.VRefer" >
     insert into v_refer (user_name, photoUrl, num
       )
