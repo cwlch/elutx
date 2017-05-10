@@ -43,7 +43,7 @@
    <select id="selectLimit" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
-    from verify_code
+    from v_refer
     limit 10
   </select>
 </mapper>
