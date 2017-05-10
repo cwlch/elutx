@@ -14,7 +14,7 @@ import elu.model.VRefer;
 * @createTime：2017年5月10日 下午10:56:38 
 * @desc 
 */
-@Service("verifyCodeService")
+@Service("vReferService")
 public class VReferService {
 	
 	@Autowired
