@@ -8,8 +8,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import elu.common.TicktCache;
 import elu.model.*;
 import elu.service.ActUserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -555,6 +557,13 @@ public class UserController {
 		return RRUtil.getJsonRes(request,resMap);
 	}
 
-	
+	@RequestMapping(value = "getTicket", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String getTicket(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+		
+	    resMap.put("ticket",TicktCache.getTicket());
+		return RRUtil.getJsonRes(request,resMap);
+	}
 	
 }
