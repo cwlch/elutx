@@ -30,7 +30,7 @@
 		<appender-ref ref="eluAppender" />
 	</logger>
 	
-	<logger name="elu.dao" additivity="false">
+	<logger name="elu" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="eluAppender" />
 	</logger>

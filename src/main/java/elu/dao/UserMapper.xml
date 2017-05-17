@@ -37,7 +37,7 @@
 		insert into user (id, uid, user_name,
 		user_pwd, phone, birth,
 		gender, home, home_str,
-		create_time, is_stop,photoUrl,id_card)
+		create_time, is_stop,photoUrl,id_card,refer_id)
 		values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{userPwd,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{birth,jdbcType=BIGINT},

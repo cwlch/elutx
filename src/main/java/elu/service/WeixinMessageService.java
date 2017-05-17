@@ -25,10 +25,10 @@ public class WeixinMessageService {
 
     public String genXml(String xml){
         Map<String, String> xmlMap = xmlToMapUtil.xmlToMap(xml);
-        System.out.println(xmlMap.get("MsgId"));
-        System.out.println("System get");
+//        System.out.println(xmlMap.get("MsgId"));
+//        System.out.println("System get");
         System.out.println("body:"+xmlMap);
-        logger.info(xmlMap.get("MsgId"));
+//        logger.info(xmlMap.get("MsgId"));
         logger.info("get");
         logger.info("body:"+xmlMap);
         String ToUserName = xmlMap.get("ToUserName");
@@ -37,7 +37,7 @@ public class WeixinMessageService {
 
         WeixinMessage message=new WeixinMessage();
         String openId=xmlMap.get("FromUserName");
-        if("subscribe".equals(xmlMap.get("subscribe"))){
+        if("subscribe".equals(xmlMap.get("Event"))){
             if(xmlMap.containsKey("EventKey")){
                 User userModel = userService.queryUserByUId(openId);
                 String referId=xmlMap.get("EventKey").replace("qrscene_","");
@@ -57,8 +57,10 @@ public class WeixinMessageService {
             message=new WeixinMessage(FromUserName,ToUserName,String.valueOf(System.currentTimeMillis()),"text","欢迎关注e鹿同行公众号！e鹿同行平台免费为用户提供发布顺风车资讯发布服务，乘客、司机均可发布以及寻找顺风出行信息。" +
                     "温馨提示：e鹿同行平台免费提供发布顺风车信息服务,不与用户有任何利益关系。搭车前请自行协商,e鹿同行平台不负担任何责任!");
 
+            return message.toXml();
+        }else{
+            return "";
         }
 
-        return message.toXml();
     }
 }

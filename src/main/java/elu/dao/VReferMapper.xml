@@ -44,6 +44,6 @@
     select 
     <include refid="Base_Column_List" />
     from v_refer
-    limit 10
+    limit 20
   </select>
 </mapper>

@@ -39,6 +39,8 @@ public class WeixinController {
 	
 	@Autowired
 	private UserService userService;
+
+    @Autowired
 	private WeixinMessageService weixinMessageService;
 
 	
@@ -138,7 +140,7 @@ public class WeixinController {
             user.setPhotoUrl( obj.getString("headimgurl"));
             userService.addUser(user);
             System.out.println("保存成功");
-        }else{
+        }else if(userModel != null && !StringUtils.isEmpty(openId)){
             userModel.setUserName(RegUtil.replaceSpecStr(obj.getString("nickname")));
             userModel.setGender(obj.getInteger("sex"));
             String address = obj.getString("province") +"-" +obj.getString("city") + "-"+obj.getString("country");
@@ -155,7 +157,7 @@ public class WeixinController {
             if(state.equals("passenger")){
                 response.sendRedirect("http://www.elutx.cn/index.html#!/passenger");
             }else if(state.equals("invitation")){
-                response.sendRedirect("http://www.elutx.cn/invitation.html");
+                response.sendRedirect("http://www.elutx.cn/elutx/activity/invitation/invitation.html");
             }else{
                 response.sendRedirect("http://www.elutx.cn/index.html#!/driver");
             }
@@ -166,20 +168,19 @@ public class WeixinController {
     }
 
 
-//    @RequestMapping(value = "getInvitationImg", produces = "application/json; charset=utf-8")
-//    @ResponseBody
-//    public String getInvitationImg(HttpServletRequest request, HttpServletResponse response) {
-//        String id=request.getParameter("id");
-//        String token = HttpRequestUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token",
-//                "grant_type=client_credential&appid=wx66ffeb28c23fa9fb&secret=8c26eb56a87fb2826051562fa9a9fd34");
-//        JSONObject tokenObj = JSON.parseObject(token);
-//        String access_token = tokenObj.getString("access_token");
-//        String str = "{\"action_name\": \"QR_LIMIT_SCENE\",\"action_info\": {\"scene\": {\"scene_id\": "+id+"}}}";
-//        JSONObject ticket = JSON.parseObject(HttpRequestUtil.sendPost("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+access_token,
-//                str));
-//        HashMap<String, Object> resMap=RRUtil.getStandardMap();
-//        resMap.put("ticket",ticket.getString("ticket"));
-//        return RRUtil.getJsonRes(request,resMap);
-////        return ticket.getString("ticket");
-//    }
+    @RequestMapping(value = "getInvitationImg", produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String getInvitationImg(HttpServletRequest request, HttpServletResponse response) {
+        String id=request.getParameter("id");
+        String token = HttpRequestUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token",
+                "grant_type=client_credential&appid=wx66ffeb28c23fa9fb&secret=8c26eb56a87fb2826051562fa9a9fd34");
+        JSONObject tokenObj = JSON.parseObject(token);
+        String access_token = tokenObj.getString("access_token");
+        String str = "{\"action_name\": \"QR_LIMIT_SCENE\",\"action_info\": {\"scene\": {\"scene_id\": "+id+"}}}";
+        JSONObject ticket = JSON.parseObject(HttpRequestUtil.sendPost("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+access_token,
+                str));
+        HashMap<String, Object> resMap=RRUtil.getStandardMap();
+        resMap.put("ticket",ticket.getString("ticket"));
+        return RRUtil.getJsonRes(request,resMap);
+    }
 }
