@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,6 +28,7 @@ import elu.service.VReferService;
 import elu.service.VerifyCodeService;
 import elu.util.Base64ImgUtil;
 import elu.util.RRUtil;
+import elu.util.Sign;
 import elu.util.ToolUtil;
 import elu.util.sendSmsUtil;
 
@@ -563,6 +565,29 @@ public class UserController {
 		HashMap<String, Object> resMap = RRUtil.getStandardMap();
 		
 	    resMap.put("ticket",TicktCache.getTicket());
+		return RRUtil.getJsonRes(request,resMap);
+	}
+	
+	
+	@RequestMapping(value = "getSign", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String getSign(HttpServletRequest request, HttpServletResponse response) {
+		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+	    String url = request.getParameter("url");
+		if(StringUtils.isEmpty(url)){
+			url = "www.elutx.cn/elutx/index.html";
+		}
+		url = "http://" + url;
+		
+		System.out.println("签名URL====="+url);
+		
+		String ticket = TicktCache.getTicket();
+		Map<String, String> ret = Sign.sign(ticket, url);
+	    for (Map.Entry entry : ret.entrySet()) {
+            resMap.put(entry.getKey().toString(), entry.getValue());
+            System.out.println("签名属性："+entry.getKey() + "--------" + entry.getValue());
+        }
+	    
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	
