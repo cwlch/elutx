@@ -573,21 +573,22 @@ public class UserController {
 	@ResponseBody
 	public String getSign(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, Object> resMap = RRUtil.getStandardMap();
+		HashMap<String, Object> resultMap = RRUtil.getStandardMap();
 	    String url = request.getParameter("url");
 		if(StringUtils.isEmpty(url)){
-			url = "www.elutx.cn/elutx/index.html";
+			url = "http://www.elutx.cn/elutx/index.html";
 		}
-		url = "http://" + url;
+//		url = "http://" + url;
 		
 		System.out.println("签名URL====="+url);
 		
 		String ticket = TicktCache.getTicket();
 		Map<String, String> ret = Sign.sign(ticket, url);
 	    for (Map.Entry entry : ret.entrySet()) {
-            resMap.put(entry.getKey().toString(), entry.getValue());
+			resultMap.put(entry.getKey().toString(), entry.getValue());
             System.out.println("签名属性："+entry.getKey() + "--------" + entry.getValue());
         }
-	    
+        resMap.put("result",resultMap);
 		return RRUtil.getJsonRes(request,resMap);
 	}
 	

@@ -21,16 +21,25 @@ public class MenuUtil {
                 "            \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=passenger#wechat_redirect\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"type\":\"view\",\n" +
                 "            \"name\":\"我是司机\",\n" +
-                "            \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=driver#wechat_redirect\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"type\":\"view\",\n" +
-                "            \"name\":\"邀请活动\",\n" +
-                "            \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=invitation#wechat_redirect\"\n" +
-                "        }\n" +
-                "    ]\n" +
+                "\"sub_button\" : [\n" +
+                "   {\t\n" +
+                "       \"type\":\"view\",\n" +
+                "       \"name\":\"发布找人\",\n" +
+                "       \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=driver#wechat_redirect\"\n" +
+                "    }, {\t\n" +
+                "       \"type\":\"view\",\n" +
+                "       \"name\":\"我的名片\",\n" +
+                "       \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=myInvitation#wechat_redirect\"\n" +
+                "    }\n" +
+                "]"+
+//                "        },\n" +
+//                "        {\n" +
+//                "            \"type\":\"view\",\n" +
+//                "            \"name\":\"邀请活动\",\n" +
+//                "            \"url\":\"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx66ffeb28c23fa9fb&redirect_uri=http://www.elutx.cn/elu/weixin/authWx&response_type=code&scope=snsapi_userinfo&state=invitation#wechat_redirect\"\n" +
+//                "        }\n" +
+//                "    ]\n" +
                 "}";
         String url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+access_token;
         String result=HttpRequestUtil.sendPost(url,menu);

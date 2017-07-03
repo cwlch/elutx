@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -140,7 +142,8 @@ public class WeixinController {
             user.setPhotoUrl( obj.getString("headimgurl"));
             userService.addUser(user);
             System.out.println("保存成功");
-        }else if(userModel != null && !StringUtils.isEmpty(openId)){
+        }//else if(userModel != null && !StringUtils.isEmpty(openId)){
+        else{
             userModel.setUserName(RegUtil.replaceSpecStr(obj.getString("nickname")));
             userModel.setGender(obj.getInteger("sex"));
             String address = obj.getString("province") +"-" +obj.getString("city") + "-"+obj.getString("country");
@@ -155,11 +158,15 @@ public class WeixinController {
         System.out.println("-------");
         try {
             if(state.equals("passenger")){
-                response.sendRedirect("http://www.elutx.cn/index.html#!/passenger");
+                response.sendRedirect("http://www.elutx.cn/elutx/index.html#!/passenger");
             }else if(state.equals("invitation")){
                 response.sendRedirect("http://www.elutx.cn/elutx/activity/invitation/invitation.html");
+            }else if(state.equals("myInvitation")){
+                Pattern p = Pattern.compile("^o_UN0w");
+                String myId = p.matcher(openId).replaceAll("");
+                response.sendRedirect("http://www.elutx.cn/elutx/index.html#!/specialities?id=" + myId);
             }else{
-                response.sendRedirect("http://www.elutx.cn/index.html#!/driver");
+                response.sendRedirect("http://www.elutx.cn/elutx/index.html#!/driver");
             }
         } catch (IOException e) {
             e.printStackTrace();
